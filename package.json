@@ -1,0 +1,44 @@
+{
+  "name": "network-services",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "clean": "rm -rf ./dist/*",
+    "build": "tsc --build .",
+    "clean:build": "npm run clean && npm run build",
+    "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faranalytics/network-services.git"
+  },
+  "author": "FAR",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/faranalytics/network-services/issues"
+  },
+  "homepage": "https://github.com/faranalytics/network-services#readme",
+  "devDependencies": {
+    "@types/node": "^20.8.4",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
+    "eslint": "^8.51.0",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.2.2"
+  },
+  "keywords": [
+    "api",
+    "ipc",
+    "marshal",
+    "microservice",
+    "microservices",
+    "net",
+    "rpc",
+    "service",
+    "tcp",
+    "tls",
+    "typesafe",
+    "typescript"
+  ]
+}
