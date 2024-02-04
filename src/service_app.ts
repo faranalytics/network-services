@@ -64,10 +64,7 @@ export class ServiceApp<T extends object> {
             throw new TypeError(`${propPath ?? props.join('.')} is not a function.`);
         }
         catch (err) {
-            if (err instanceof QueueSizeLimitError) {
-                console.error(err);
-            }
-            else {
+            if (!(err instanceof QueueSizeLimitError)) {
                 try {
                     const error = this.createError(err);
                     this.mux.mux(new ResultMessage({ type: 1, id, data: error }));

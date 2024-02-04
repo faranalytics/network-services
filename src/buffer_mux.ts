@@ -50,6 +50,7 @@ export class BufferMux extends Mux {
         }
         catch (err) {
             this.stream.destroy(err instanceof Error ? err : undefined);
+            throw err;
         }
     }
 
