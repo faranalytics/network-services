@@ -1,4 +1,3 @@
-
 import * as stream from 'stream';
 import { ServiceApp, ServiceAppOptions } from './service_app';
 import { ServiceAPI, ServiceAPIOptions } from './service_api';
