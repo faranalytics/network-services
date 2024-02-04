@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1] - 2024-02-04
+### Changed
+- Improve examples.
+### Fixed
+- Prevent instantiation of more than one Service for each stream.Duplex.
+- Fix access modifiers.
+
 ## [1.0.0] - 2024-02-03
 ### Added
 - This project adheres to Semantic Versioning.
