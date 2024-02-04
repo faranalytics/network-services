@@ -14,12 +14,20 @@ export interface ServiceOptions {
 
 export class Service {
 
+    public static streams: WeakSet<stream.Duplex> = new WeakSet();
     public mux: Mux;
     public serviceAPI?: ServiceAPI;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public serviceApp?: ServiceApp<any>;
 
     constructor(stream: stream.Duplex, options?: ServiceOptions & MuxOptions) {
+        if (Service.streams.has(stream)) {
+            throw new InstantiationError(`The stream.Duplex instance has already been associated with a Service.`);
+        }
+        else {
+            Service.streams.add(stream);
+        }
+
         if (options?.muxClass) {
             this.mux = new options.muxClass(stream, options);
         }
@@ -33,8 +41,7 @@ export class Service {
 
     public createServiceApp<T extends object>(app: T, options?: ServiceAppOptions<T>): ServiceApp<T> {
         if (!this.serviceApp) {
-            const serviceApp = new ServiceApp<T>(app, this.mux, options);
-            this.serviceApp = serviceApp;
+            const serviceApp = this.serviceApp = new ServiceApp<T>(app, this.mux, options);
             return serviceApp;
         }
         else {
@@ -44,9 +51,7 @@ export class Service {
 
     public createServiceAPI<T extends object>(options?: ServiceAPIOptions): Async<T> {
         if (!this.serviceAPI) {
-            const serviceAPI = new ServiceAPI(this.mux, options);
-            this.serviceAPI = serviceAPI;
-            
+            const serviceAPI = this.serviceAPI = new ServiceAPI(this.mux, options);
             let props: Array<string> = [];
             const handler = {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
