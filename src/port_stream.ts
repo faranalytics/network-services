@@ -20,7 +20,7 @@ export class PortStream extends stream.Duplex {
         }
     }
 
-    async _write(chunk: CallMessage | ResultMessage, encoding: BufferEncoding, callback: (error?: Error | null) => void): Promise<void> {
+    public async _write(chunk: CallMessage | ResultMessage, encoding: BufferEncoding, callback: (error?: Error | null) => void): Promise<void> {
         try {
             await new Promise<null>((r, e) => {
                 this.port?.once('messageerror', e);
@@ -36,7 +36,7 @@ export class PortStream extends stream.Duplex {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _read(size: number): void {
+    public _read(size: number): void {
         if (this.messageQueue.length) {
             while (this.messageQueue.length) {
                 const message = this.messageQueue.shift();

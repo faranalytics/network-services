@@ -85,7 +85,7 @@ export class ServicePool extends events.EventEmitter {
         mux.on('call', this.onCallMessage.bind(this, mux));
     }
 
-    async onCallMessage(mux: Mux, message: CallMessage): Promise<void> {
+    protected async onCallMessage(mux: Mux, message: CallMessage): Promise<void> {
         try {
             const id = message.id;
             const uuid = crypto.randomUUID();
@@ -110,7 +110,7 @@ export class ServicePool extends events.EventEmitter {
         }
     }
 
-    onResultMessage(message: ResultMessage) {
+    protected onResultMessage(message: ResultMessage) {
         try {
             if (message.type == 1 || message.type == 2) {
                 const muxMap = this.callRegistrar.get(message.id);

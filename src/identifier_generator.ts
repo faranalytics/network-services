@@ -7,7 +7,7 @@ export class NumericIdentifierGenerator implements IdentifierGenerator {
     constructor() {
         this.id = 0;
      }
-    getIdentifier(): string {
+    public getIdentifier(): string {
         return (++this.id).toString();
     }
 }

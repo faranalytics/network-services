@@ -23,6 +23,6 @@ export abstract class Mux extends events.EventEmitter {
         this.ingressQueueSizeLimit = options?.ingressQueueSizeLimit;
     }
 
-    abstract mux(message: CallMessage | ResultMessage): void;
-    abstract demux(chunk: Buffer | string | object): void;
+    public abstract mux(message: CallMessage | ResultMessage): void;
+    public abstract demux(chunk: Buffer | string | object): void;
 }
