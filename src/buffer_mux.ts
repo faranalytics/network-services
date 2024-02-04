@@ -6,10 +6,12 @@ import { Mux, MuxOptions } from './mux';
 export class BufferMux extends Mux {
     public ingressQueue?: Buffer;
     public egressQueue?: Buffer;
+    public messageSize: number | null;
 
     constructor(stream: stream.Duplex, options?: MuxOptions) {
         super(stream, options);
 
+        this.messageSize = null;
         this.ingressQueue = Buffer.allocUnsafe(0);
         this.egressQueue = Buffer.allocUnsafe(0);
 
@@ -74,11 +76,13 @@ export class BufferMux extends Mux {
                     throw new QueueSizeLimitError(`The ingress buffer exeeded ${this.ingressQueueSizeLimit.toLocaleString()} bytes.`);
                 }
 
-                let messageSize = this.ingressQueue.readUintBE(0, 6);
+                if (this.messageSize === null) {
+                    this.messageSize = this.ingressQueue.readUintBE(0, 6);
+                }
 
-                while (this.ingressQueue.length >= messageSize) {
-                    const buf = this.ingressQueue.subarray(6, messageSize);
-                    this.ingressQueue = this.ingressQueue.subarray(messageSize, this.ingressQueue.length);
+                while (this.ingressQueue.length >= this.messageSize) {
+                    const buf = this.ingressQueue.subarray(6, this.messageSize);
+                    this.ingressQueue = this.ingressQueue.subarray(this.messageSize, this.ingressQueue.length);
                     const message = this.deserializeMessage(buf);
 
                     if (message.type == 1 || message.type == 2) {
@@ -93,10 +97,11 @@ export class BufferMux extends Mux {
                     }
 
                     if (this.ingressQueue.length > 6) {
-                        messageSize = this.ingressQueue.readUintBE(0, 6);
+                        this.messageSize = this.ingressQueue.readUintBE(0, 6);
                     }
                     else {
-                        break;
+                        this.messageSize = null;
+                        return;
                     }
                 }
             }
