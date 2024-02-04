@@ -47,7 +47,7 @@ export class Service {
             return serviceApp;
         }
         else {
-            throw new InstantiationError(`A ServiceApp instance has already been instantiated for this Service.`);
+            throw new InstantiationError("A ServiceApp instance has already been instantiated for this Service.");
         }
     }
 
@@ -64,7 +64,7 @@ export class Service {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
                 set(target: any, property: string, value: any, receiver: any) {
                     props.push(property);
-                    throw new NotImplementedError(`The \`set\` property is not implemented for the property named \`${props.join('.')}\`.`);
+                    throw new NotImplementedError(`The 'set' property is not implemented for the property path ${props.join('.')}.`);
                 },
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 apply(target: any, thisArg: any, argumentsList: Array<unknown>): Promise<unknown> {
@@ -81,12 +81,12 @@ export class Service {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
                 set(target: any, property: string, value: any, receiver: any) {
                     props.push(property);
-                    throw new NotImplementedError(`The \`set\` property is not implemented for the property named \`${props.join('.')}\`.`);
+                    throw new NotImplementedError(`The 'set' property is not implemented for the property path ${props.join('.')}.`);
                 }
             });
         }
         else {
-            throw new InstantiationError(`A ServiceAPI instance has already been instantiated for this Service.`);
+            throw new InstantiationError("A ServiceAPI instance has already been instantiated for this Service.");
         }
     }
 }

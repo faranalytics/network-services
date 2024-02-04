@@ -126,7 +126,7 @@ export class BufferMux extends Mux {
         }
         else {
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            throw new NotImplementedError(`The message type is not implemented.`);
+            throw new NotImplementedError("The message type is not implemented.");
         }
     }
 

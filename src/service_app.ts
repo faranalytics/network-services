@@ -34,7 +34,7 @@ export class ServiceApp<T extends object> {
             if (this.paths) {
                 propPath = <PropPath<Async<T>>>props.join('.');
                 if (this.paths.indexOf(propPath) == -1) {
-                    throw new PropertyPathError(`The property path \`${propPath}\` is not an allowed property path.`);
+                    throw new PropertyPathError(`The property path, ${propPath}, is not an allowed property path.`);
                 }
             }
 
