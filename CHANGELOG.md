@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.4] - 2024-02-04
+### Fixed
+- Improve logic around how message headers are read.
+- Improve various aspects of error handling.
+- Ensure that muxing errors result in destruction of the stream.
+
 ## [1.0.3] - 2024-02-04
 ### Changed
 - Improve documentation.
