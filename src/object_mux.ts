@@ -29,9 +29,7 @@ export class ObjectMux extends Mux {
                 this.egressQueue.push(message);
 
                 if (this.egressQueueSizeLimit && this.egressQueue.length > this.egressQueueSizeLimit) {
-                    const error = new QueueSizeLimitError(`The egress buffer exeeded ${this.egressQueueSizeLimit.toLocaleString()} bytes.`);
-                    this.stream.destroy(error);
-                    throw error;
+                    throw new QueueSizeLimitError(`The egress buffer exeeded ${this.egressQueueSizeLimit.toLocaleString()} bytes.`);
                 }
 
                 if (!this.stream.writableNeedDrain) {
