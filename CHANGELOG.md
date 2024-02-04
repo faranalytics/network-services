@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.2] - 2024-02-04
+### Added
+- Add .gitignore to examples.
+### Fixed
+- Fix logic for selecting a Mux.
+
 ## [1.0.1] - 2024-02-04
 ### Changed
 - Improve examples.
