@@ -1,5 +1,3 @@
-/* eslint-disable no-empty */
-
 import * as stream from 'stream';
 import { CallMessage, CallMessageList, ResultMessage, ResultMessageList } from "./messages";
 import { QueueSizeLimitError, NotImplementedError } from './errors';
