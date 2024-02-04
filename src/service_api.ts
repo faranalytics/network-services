@@ -74,7 +74,7 @@ export class ServiceAPI {
             }
         });
 
-        this.mux.on('result', this.evaluateResultMessage.bind(this));
+        this.mux.on('result', this.onResult.bind(this));
     }
 
     public async call(props: Array<string>, ...args: Array<unknown>): Promise<unknown> {
@@ -99,7 +99,7 @@ export class ServiceAPI {
         });
     }
 
-    protected evaluateResultMessage(message: ResultMessage): void {
+    protected onResult(message: ResultMessage): void {
         try {
             const id: string = message.id;
             const call = this.callRegistrar.get(id);
