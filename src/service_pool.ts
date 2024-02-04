@@ -65,13 +65,16 @@ export class ServicePool extends events.EventEmitter {
 
         let mux: Mux;
 
-        if (stream.writableObjectMode) {
+        if (stream.writableObjectMode && stream.readableObjectMode) {
             mux = new ObjectMux(stream);
         }
-        else {
+        else if (!stream.writableObjectMode && !stream.readableObjectMode){
             mux = new BufferMux(stream);
         }
-
+        else {
+            throw new NotImplementedError("Unsupported stream.");
+        }
+        
         stream.on('close', () => {
             for (const [uuid, muxMap] of this.callRegistrar.entries()) {
                 if (muxMap.mux === mux) {

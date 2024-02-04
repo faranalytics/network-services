@@ -50,6 +50,8 @@ for (let i = 0; i < 100; i++) { // Connect to the remote Service 10 times and ca
     }));
 }
 
-await Promise.all(results);
+const greetings = await Promise.all(results);
+
+console.log(greetings);
 
 console.timeEnd(`test`);
