@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.3] - 2024-02-04
+### Changed
+- Improve documentation.
+
 ## [1.0.2] - 2024-02-04
 ### Added
 - Add .gitignore to examples.
