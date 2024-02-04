@@ -24,18 +24,23 @@ export class ObjectMux extends Mux {
     }
 
     public mux(message: CallMessage | ResultMessage) {
-        if (this.egressQueue) {
-            this.egressQueue.push(message);
+        try {
+            if (this.egressQueue) {
+                this.egressQueue.push(message);
 
-            if (this.egressQueueSizeLimit && this.egressQueue.length > this.egressQueueSizeLimit) {
-                const error = new QueueSizeLimitError(`The egress buffer exeeded ${this.egressQueueSizeLimit.toLocaleString()} bytes.`);
-                this.stream.destroy(error);
-                throw error;
-            }
+                if (this.egressQueueSizeLimit && this.egressQueue.length > this.egressQueueSizeLimit) {
+                    const error = new QueueSizeLimitError(`The egress buffer exeeded ${this.egressQueueSizeLimit.toLocaleString()} bytes.`);
+                    this.stream.destroy(error);
+                    throw error;
+                }
 
-            if (!this.stream.writableNeedDrain) {
-                this.writeObjectToStream();
+                if (!this.stream.writableNeedDrain) {
+                    this.writeObjectToStream();
+                }
             }
+        }
+        catch (err) {
+            this.stream.destroy(err instanceof Error ? err : undefined);
         }
     }
 

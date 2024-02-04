@@ -28,23 +28,28 @@ export class BufferMux extends Mux {
     }
 
     public mux(message: CallMessage | ResultMessage) {
-        if (this.egressQueue) {
-            const data = this.serializeMessage(message);
-            const size = Buffer.alloc(6, 0);
-            size.writeUIntBE(data.length + 6, 0, 6);
-            const buf = Buffer.concat([size, data]);
+        try {
+            if (this.egressQueue) {
+                const data = this.serializeMessage(message);
+                const size = Buffer.alloc(6, 0);
+                size.writeUIntBE(data.length + 6, 0, 6);
+                const buf = Buffer.concat([size, data]);
 
-            this.egressQueue = Buffer.concat([this.egressQueue, buf]);
+                this.egressQueue = Buffer.concat([this.egressQueue, buf]);
 
-            if (this.egressQueueSizeLimit && this.egressQueue.length > this.egressQueueSizeLimit) {
-                const error = new QueueSizeLimitError(`The egress buffer exeeded ${this.egressQueueSizeLimit.toLocaleString()} bytes.`);
-                this.stream.destroy(error);
-                throw error;
+                if (this.egressQueueSizeLimit && this.egressQueue.length > this.egressQueueSizeLimit) {
+                    const error = new QueueSizeLimitError(`The egress buffer exeeded ${this.egressQueueSizeLimit.toLocaleString()} bytes.`);
+                    this.stream.destroy(error);
+                    throw error;
+                }
+
+                if (!this.stream.writableNeedDrain) {
+                    this.writeBufferToStream();
+                }
             }
-
-            if (!this.stream.writableNeedDrain) {
-                this.writeBufferToStream();
-            }
+        }
+        catch (err) {
+            this.stream.destroy(err instanceof Error ? err : undefined);
         }
     }
 
