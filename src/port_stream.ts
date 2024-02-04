@@ -37,23 +37,28 @@ export class PortStream extends stream.Duplex {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public _read(size: number): void {
-        if (this.messageQueue.length) {
-            while (this.messageQueue.length) {
-                const message = this.messageQueue.shift();
-                if (!this.push(message)) {
-                    break;
-                }
-            }
-        }
-        else {
-            this.once($data, () => {
+        try{
+            if (this.messageQueue.length) {
                 while (this.messageQueue.length) {
                     const message = this.messageQueue.shift();
                     if (!this.push(message)) {
                         break;
                     }
                 }
-            });
+            }
+            else {
+                this.once($data, () => {
+                    while (this.messageQueue.length) {
+                        const message = this.messageQueue.shift();
+                        if (!this.push(message)) {
+                            break;
+                        }
+                    }
+                });
+            }    
+        }
+        catch(err) {
+            this.destroy(err instanceof Error ? err : undefined);
         }
     }
 }
