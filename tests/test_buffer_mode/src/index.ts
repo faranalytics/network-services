@@ -148,9 +148,9 @@ async function test(n: number) {
 try {
     console.time('test');
 
-    const ITERATIONS = 100;
+    const ITERATIONS = 1;
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 2; i++) {
         const tests = [];
         for (let i = 1; i <= ITERATIONS; i++) {
             tests.push(test(i));
