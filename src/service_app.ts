@@ -41,25 +41,24 @@ export class ServiceApp<T extends object> {
             let base = <{ [k: string]: unknown }>this.app;
             for (let i = 0; i < props.length; i++) {
                 const name = props[i];
-                if (typeof name == 'string') {
-                    const value = base[name];
-                    if (typeof value == 'function') {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                        const result = await value.call(base, ...message.args);
-                        this.mux.mux(new ResultMessage({ type: 2, id, data: result }));
-                        return;
-                    }
-                    else if (value !== null && typeof value == 'object' && !Array.isArray(value) && Object.hasOwn(base, name)) {
-                        base = <{ [k: string]: unknown }>value;
-                        continue;
-                    }
-                    else {
-                        throw new TypeError(`${propPath ?? props.join('.')} is not a function.`);
-                    }
-                }
-                else {
+                if (typeof name != 'string') {
                     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                     throw new PropertyPathError(`The property name, ${name}, must be a string.`);
+                }
+
+                const value = base[name];
+                if (typeof value == 'function') {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    const result = await value.call(base, ...message.args);
+                    this.mux.mux(new ResultMessage({ type: 2, id, data: result }));
+                    return;
+                }
+                else if (value !== null && typeof value == 'object' && !Array.isArray(value) && Object.hasOwn(base, name)) {
+                    base = <{ [k: string]: unknown }>value;
+                    continue;
+                }
+                else {
+                    throw new TypeError(`${propPath ?? props.join('.')} is not a function.`);
                 }
             }
 
