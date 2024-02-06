@@ -78,7 +78,6 @@ export class ServiceAPI {
     }
 
     public async call(props: Array<string>, ...args: Array<unknown>): Promise<unknown> {
-
         return new Promise((r, e) => {
             try {
                 const id = this.identifierGenerator.getIdentifier();
