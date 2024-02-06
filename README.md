@@ -38,7 +38,7 @@ A *Network-Services* app can be explained with a complete and simple example.  I
 - [Extend *Network-Services*](#extend-network-services)
 - [Scaling](#scaling)
 - [Message Protocol](#message-protocol)
-    - [Default JSON Message Protocol](#default-json-communication-protocol)
+    - [Default JSON Message Protocol](#default-json-message-protocol)
 - [Security](#security)
     - [Use TLS encryption.](#use-tls-encryption)
     - [Use TLS client certificate authentication.](#use-tls-client-certificate-authentication)
