@@ -88,7 +88,7 @@ Using *Network-Services* involves creating a Service App and calling its methods
 #### Import the `node:net` module and the `createService` helper function.
 ```ts
 import * as net from "node:net";
-import { createService } from 'network-services';
+import { createService } from "network-services";
 ```
 
 #### Create a Greeter Application.
