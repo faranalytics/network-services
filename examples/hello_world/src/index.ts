@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import * as net from "node:net";
-import { createService } from 'network-services';
+import { createService } from "network-services";
 
 class Greeter { // Create a friendly Greeter Application.
     greet(kind: string) {

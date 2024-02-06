@@ -1,5 +1,5 @@
-import { createPortStream, createService } from 'network-services';
-import { threadId } from 'worker_threads';
+import { threadId } from "node:worker_threads";
+import { createPortStream, createService } from "network-services";
 
 export class Greeter {
     greet(kind: string) {
