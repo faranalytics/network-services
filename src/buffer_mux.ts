@@ -38,7 +38,7 @@ export class BufferMux extends Mux {
                 this.egressQueue = Buffer.concat([this.egressQueue, buf]);
 
                 if (this.egressQueueSizeLimit && this.egressQueue.length > this.egressQueueSizeLimit) {
-                    throw new QueueSizeLimitError(`The egress buffer exeeded ${this.egressQueueSizeLimit.toLocaleString()} bytes.`);
+                    throw new QueueSizeLimitError(`The egress buffer exceeded ${this.egressQueueSizeLimit.toLocaleString()} bytes.`);
                 }
 
                 if (!this.stream.writableNeedDrain) {
@@ -77,7 +77,7 @@ export class BufferMux extends Mux {
                 this.ingressQueue = Buffer.concat([this.ingressQueue, chunk]);
 
                 if (this.ingressQueueSizeLimit && this.ingressQueue.length > this.ingressQueueSizeLimit) {
-                    throw new QueueSizeLimitError(`The ingress buffer exeeded ${this.ingressQueueSizeLimit.toLocaleString()} bytes.`);
+                    throw new QueueSizeLimitError(`The ingress buffer exceeded ${this.ingressQueueSizeLimit.toLocaleString()} bytes.`);
                 }
 
                 if (this.messageSize === null) {
