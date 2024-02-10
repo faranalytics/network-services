@@ -12,10 +12,6 @@ export class ObjectMux extends Mux {
         this.egressQueue = [];
         this.egressQueueSizeLimit = options?.egressQueueSizeLimit;
 
-        if (stream.listenerCount('error') === 0) {
-            stream.on('error', console.error);
-        }
-
         this.stream.once('close', () => {
             delete this.egressQueue;
         });
