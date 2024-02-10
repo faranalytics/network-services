@@ -1,18 +1,18 @@
-import * as threads from "node:worker_threads";
+import * as worker_threads from "node:worker_threads";
 import * as stream from "node:stream";
 import { CallMessage, ResultMessage } from "./messages";
 
 const $data = Symbol('data');
 
 export class PortStream extends stream.Duplex {
-    public port?: threads.MessagePort;
+    public port?: worker_threads.MessagePort | worker_threads.Worker;
     public messageQueue: Array<CallMessage | ResultMessage>;
 
-    constructor(options?: stream.DuplexOptions) {
+    constructor(port?: worker_threads.MessagePort | worker_threads.Worker, options?: stream.DuplexOptions) {
         super({ ...options, ...{ objectMode: true } });
-        this.messageQueue  = [];
-        if (threads.parentPort) {
-            this.port = threads.parentPort;
+        this.messageQueue = [];
+        this.port = port ? port : worker_threads.parentPort ? worker_threads.parentPort : undefined;
+        if (this.port) {
             this.port.on('message', (message: CallMessage | ResultMessage) => {
                 this.messageQueue.push(message);
                 this.emit($data);
@@ -37,7 +37,7 @@ export class PortStream extends stream.Duplex {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public _read(size: number): void {
-        try{
+        try {
             if (this.messageQueue.length) {
                 while (this.messageQueue.length) {
                     const message = this.messageQueue.shift();
@@ -55,14 +55,14 @@ export class PortStream extends stream.Duplex {
                         }
                     }
                 });
-            }    
+            }
         }
-        catch(err) {
+        catch (err) {
             this.destroy(err instanceof Error ? err : undefined);
         }
     }
 }
 
-export function createPortStream(options?: stream.DuplexOptions) : PortStream {
-    return new PortStream(options);
+export function createPortStream(port?: worker_threads.MessagePort | worker_threads.Worker, options?: stream.DuplexOptions): PortStream {
+    return new PortStream(port, options);
 }
