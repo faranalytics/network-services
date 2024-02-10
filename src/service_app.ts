@@ -47,7 +47,7 @@ export class ServiceApp<T extends object> {
                 }
 
                 const value = base[name];
-                if (typeof value == 'function') {
+                if (typeof value == 'function' && i == props.length - 1) {
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                     const result = await value.call(base, ...message.args);
                     this.mux.mux(new ResultMessage({ type: 2, id, data: result }));
