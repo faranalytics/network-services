@@ -1,6 +1,6 @@
 import { CallMessage, ResultMessage } from "./messages";
 import { QueueSizeLimitError, PropertyPathError } from "./errors";
-import { Async, PropPath } from "./types";
+import { Async, Callable, PropPath } from "./types";
 import { Mux } from "./mux";
 
 export interface ServiceAppOptions<T extends object> {
@@ -39,30 +39,16 @@ export class ServiceApp<T extends object> {
             }
 
             let base = <{ [k: string]: unknown }>this.app;
-            for (let i = 0; i < props.length; i++) {
-                const name = props[i];
-                if (typeof name != 'string') {
-                    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                    throw new PropertyPathError(`The property name, ${name}, must be a string.`);
-                }
-
-                const value = base[name];
-                if (typeof value == 'function' && i == props.length - 1) {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    const result = await value.call(base, ...message.args);
-                    this.mux.mux(new ResultMessage({ type: 2, id, data: result }));
-                    return;
-                }
-                else if (value !== null && typeof value == 'object' && !Array.isArray(value) && Object.hasOwn(base, name)) {
-                    base = <{ [k: string]: unknown }>value;
-                    continue;
-                }
-                else {
-                    throw new TypeError(`${propPath ?? props.join('.')} is not a function.`);
-                }
+            for (let i = 0; i < props.length - 1; i++) {
+                base = <{ [k: string]: unknown }>base[props[i]];
             }
 
-            throw new TypeError(`${propPath ?? props.join('.')} is not a function.`);
+            if (typeof base[props[props.length-1]] != 'function') {
+                throw new TypeError(`${props[props.length-1]} is not a function`);
+            }
+
+            const result = await (<Callable>base[props[props.length-1]])(...message.args);
+            this.mux.mux(new ResultMessage({ type: 2, id, data: result }));
         }
         catch (err) {
             if (!(err instanceof QueueSizeLimitError)) {
@@ -80,7 +66,7 @@ export class ServiceApp<T extends object> {
     protected createError(err: unknown): { [key: string]: unknown } {
         if (err instanceof Error) {
             const error: { [key: string]: unknown } = {};
-            for (const name of Object.getOwnPropertyNames(err)) {
+            for (const name of Object.getOwnPropertyNames(err).concat(Object.getOwnPropertyNames(Object.getPrototypeOf(err)))) {
                 error[name] = (err as unknown as { [key: string]: unknown })[name];
             }
             return error;
