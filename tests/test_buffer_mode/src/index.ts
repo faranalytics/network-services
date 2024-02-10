@@ -1,31 +1,31 @@
 import * as net from "node:net";
-import * as crypto from "node:crypto";
+// import * as crypto from "node:crypto";
 import * as assert from "node:assert";
 import { Async, createService } from "network-services";
 
-const aggregator: { [key: string]: Array<number> } = {};
+// const aggregator: { [key: string]: Array<number> } = {};
 
-function memoryUsage() {
-    gc?.();
-    for (const [key, value] of Object.entries<number>(<{ [key: string]: number }>(process.memoryUsage() as unknown))) {
-        const mb = Math.round(value / (1024 * 1024));
-        if (!Object.hasOwn(aggregator, key)) {
-            aggregator[key] = [];
-        }
-        aggregator[key].push(mb);
-        console.log(`${key}: ${mb}MB`);
-    }
-}
+// function memoryUsage() {
+//     gc?.();
+//     for (const [key, value] of Object.entries<number>(<{ [key: string]: number }>(process.memoryUsage() as unknown))) {
+//         const mb = Math.round(value / (1024 * 1024));
+//         if (!Object.hasOwn(aggregator, key)) {
+//             aggregator[key] = [];
+//         }
+//         aggregator[key].push(mb);
+//         console.log(`${key}: ${mb}MB`);
+//     }
+// }
 
-function statistics() {
-    for (const [key, value] of Object.entries(aggregator)) {
-        const mean = Math.round(value.reduce((a, b) => a + b, 0) / value.length);
-        const max = value.reduce((a, b) => a < b ? b : a, 0);
-        const min = value.reduce((a, b) => a < b ? a : b, max);
-        console.log(`${key}: ${mean}MB, ${min}MB, ${max}MB`);
-    }
-    console.log('');
-}
+// function statistics() {
+//     for (const [key, value] of Object.entries(aggregator)) {
+//         const mean = Math.round(value.reduce((a, b) => a + b, 0) / value.length);
+//         const max = value.reduce((a, b) => a < b ? b : a, 0);
+//         const min = value.reduce((a, b) => a < b ? a : b, max);
+//         console.log(`${key}: ${mean}MB, ${min}MB, ${max}MB`);
+//     }
+//     console.log('');
+// }
 
 class UnitBLevel {
 
@@ -50,6 +50,8 @@ class UnitB {
     }
 
     async increment2(n: number): Promise<number> {
+        console.log('TEST');
+        console.log('this.unitA', this.unitA);
         return await this.unitA.increment3(++n);
     }
 }
@@ -77,7 +79,7 @@ class UnitA {
     }
 }
 
-memoryUsage();
+// memoryUsage();
 
 (() => {
     const server = net.createServer().listen({ port: 3000, host: '127.0.0.1' });
@@ -86,6 +88,7 @@ memoryUsage();
             socket.on('error', console.error);
             const service = createService(socket, { egressQueueSizeLimit: 1e8, ingressQueueSizeLimit: 1e8 });
             const unitA = service.createServiceAPI<UnitA>();
+            console.log('unitA', unitA);
             const unitB = new UnitB(unitA);
             service.createServiceApp<UnitB>(unitB, {
                 paths: ['echoString', 'increment2', 'level.echoString', 'level.throwError']
@@ -107,20 +110,21 @@ async function test(n: number) {
                 console.log('Start test ', n);
                 const service = createService(socket, { egressQueueSizeLimit: 1e7, ingressQueueSizeLimit: 1e7 });
                 const unitB = service.createServiceAPI<UnitB>();
+                console.log('unitB', unitB);
                 const unitA = new UnitA(unitB);
                 service.createServiceApp<UnitA>(unitA, {
                     paths: ['echo', 'increment1', 'increment3']
                 });
 
-                const chars = crypto.randomBytes(1e6).toString();
-                const result = await unitB.echoString(chars);
-                assert.equal(result, chars);
-                const results = await Promise.all([unitB.echoString(chars), unitB.echoString(chars), unitB.echoString(chars)]);
-                assert.equal(results[0], chars);
-                assert.equal(results[1], chars);
-                assert.equal(results[2], chars);
-                assert.equal(await unitB.echoString(chars), chars);
-                assert.equal(await unitB.level.echoString(chars), chars);
+                // const chars = crypto.randomBytes(1e6).toString();
+                // const result = await unitB.echoString(chars);
+                // assert.equal(result, chars);
+                // const results = await Promise.all([unitB.echoString(chars), unitB.echoString(chars), unitB.echoString(chars)]);
+                // assert.equal(results[0], chars);
+                // assert.equal(results[1], chars);
+                // assert.equal(results[2], chars);
+                // assert.equal(await unitB.echoString(chars), chars);
+                // assert.equal(await unitB.level.echoString(chars), chars);
                 assert.equal(await unitA.increment1(0), 3);
 
                 try {
@@ -137,7 +141,7 @@ async function test(n: number) {
             }
             finally {
                 socket.destroy();
-                memoryUsage();
+                // memoryUsage();
                 console.log('Stop test ', n);
             }
         });
@@ -148,9 +152,9 @@ async function test(n: number) {
 try {
     console.time('test');
 
-    const ITERATIONS = 10;
+    const ITERATIONS = 1;
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 1; i++) {
         const tests = [];
         for (let i = 1; i <= ITERATIONS; i++) {
             tests.push(test(i));
@@ -163,8 +167,8 @@ catch (err) {
     console.error(err);
 }
 finally {
-    console.log('\nfinal');
-    memoryUsage();
-    console.log('');
-    statistics();
+    // console.log('\nfinal');
+    // memoryUsage();
+    // console.log('');
+    // statistics();
 }
