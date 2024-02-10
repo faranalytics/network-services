@@ -9,7 +9,7 @@ In this example you will use Network-Services in order to create a "Hello, World
 #### Import the `node:net` module and the `createService` helper functions.
 ```ts
 import * as net from "node:net";
-import { Async, createService } from 'network-services';
+import { createService } from 'network-services';
 ```
 #### Create a Greeter Service.
 ```ts
