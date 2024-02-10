@@ -27,7 +27,7 @@ const server = net.createServer().listen({ port: 3000, host: '127.0.0.1' }); // 
 server.on('connection', (socket: net.Socket) => {
     socket.on('error', console.error);
     const service = createService(socket); // Create an instance of a Service.
-    service.createServiceApp(greeter); // Create a Service App using the Greeter and connect it to the network.
+    service.createServiceApp(greeter); // Create a Service App using a Greeter and connect it to the network.
 });
 ```
 #### Connect to the Server and use the `net.Socket` in order to create a Service.  Use the Service in order to create a Service API of type `Greeter`.
