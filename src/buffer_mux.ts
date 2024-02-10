@@ -15,10 +15,6 @@ export class BufferMux extends Mux {
         this.ingressQueue = Buffer.allocUnsafe(0);
         this.egressQueue = Buffer.allocUnsafe(0);
 
-        if (stream.listenerCount('error') === 0) {
-            stream.on('error', console.error);
-        }
-
         this.stream.once('close', () => {
             delete this.ingressQueue;
             delete this.egressQueue;
