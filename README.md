@@ -10,7 +10,7 @@ A *Network-Services* app can be explained with a complete and simple example.  I
 
 ### Features
 - Type-safe APIs: *code completion*, *parameter types*, and *return types*.
-- **Easily scale your Service App using a [Service Pool](#scaling).**
+- Easily scale your Service App using a [Service Pool](#scaling).
 - Return values *and* Errors are [marshalled](#marshalling) back to the caller.
 - Infinite [property nesting](#use-network-services-to-create-an-api-with-a-nested-method-example); you can use a Service API to call *nested* properties on a Service App at any depth.
 - [Bi-directional](#use-network-services-to-create-bi-directional-type-safe-apis-example) asynchronous RPC over TCP.
