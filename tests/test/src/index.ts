@@ -8,7 +8,8 @@ import { UnitA } from "./unit_a.js";
 import { UnitB } from "./unit_b.js";
 import { IUnitC } from "./unit_c.js";
 
-const QUEUE_SIZE_LIMIT = 1e7;
+const ingressQueueSizeLimit = 1e7;
+const egressQueueSizeLimit = 1e7;
 
 try {
     const unitBTCPWorker = new worker_threads.Worker("./dist/worker_tcp_port_3000.js");
@@ -23,13 +24,13 @@ try {
     const chars1 = crypto.randomBytes(1e6).toString();
     const chars2 = crypto.randomBytes(1e6).toString();
     const chars3 = crypto.randomBytes(1e6).toString();
-    const chars4 = '0'.repeat(QUEUE_SIZE_LIMIT);
+    const chars4 = '0'.repeat(egressQueueSizeLimit);
 
     await test('Test variations of uni-directional and bi-directional methods calls.', async (t) => {
         const socket = net.connect({ port: 3000, host: '127.0.0.1' });
         // socketUnitB.on('error', console.error);
         await new Promise((r) => socket.on('ready', r));
-        const service = createService(socket, { egressQueueSizeLimit: QUEUE_SIZE_LIMIT, ingressQueueSizeLimit: QUEUE_SIZE_LIMIT });
+        const service = createService(socket, { egressQueueSizeLimit, ingressQueueSizeLimit });
         const unitB = service.createServiceAPI<UnitB>();
         const unitA = new UnitA(unitB);
         service.createServiceApp<UnitA>(unitA, { paths: ['increment1', 'increment3', 'throwError'] });
@@ -71,7 +72,7 @@ try {
             await assert.rejects(unitB.hasA.hasA_throwError('Error'), { name: 'Error' });
         });
 
-        await t.test('Make a call that exceeds the QUEUE_SIZE_LIMIT', async () => {
+        await t.test('Make a call that exceeds the queue size limit.', async () => {
             await assert.rejects(unitB.echoString(chars4), { name: 'QueueSizeLimitError' });
         });
     });
@@ -81,7 +82,7 @@ try {
             const socket = net.connect({ port: 3001, host: '127.0.0.1' });
             socket.on('error', console.error);
             await new Promise((r) => socket.on('ready', r));
-            const service = createService(socket, { egressQueueSizeLimit: QUEUE_SIZE_LIMIT, ingressQueueSizeLimit: QUEUE_SIZE_LIMIT });
+            const service = createService(socket, { egressQueueSizeLimit, ingressQueueSizeLimit });
             const unitC = service.createServiceAPI<IUnitC>();
 
             await t.test('Call an undefined method.', async () => {
@@ -100,7 +101,7 @@ try {
             const socket = net.connect({ port: 3000, host: '127.0.0.1' });
             socket.on('error', console.error);
             await new Promise((r) => socket.on('ready', r));
-            const service = createService(socket, { egressQueueSizeLimit: QUEUE_SIZE_LIMIT, ingressQueueSizeLimit: QUEUE_SIZE_LIMIT });
+            const service = createService(socket, { egressQueueSizeLimit, ingressQueueSizeLimit });
             const unitB = service.createServiceAPI<UnitB>();
 
             await t.test('Call a method that is not a defined property path.', async () => {
