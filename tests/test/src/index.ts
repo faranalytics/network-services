@@ -11,39 +11,7 @@ import { IUnitC } from "./unit_c.js";
 
 const QUEUE_SIZE_LIMIT = 1e7;
 
-const aggregator: { [key: string]: Array<number> } = {};
-
-function memoryUsage() {
-    const memoryUsage = process.memoryUsage();
-    const result: { [s: string]: string; } = {};
-    gc?.();
-    for (const [key, value] of Object.entries<number>(<{ [s: string]: number; }><unknown>memoryUsage)) {
-        const mb = Math.round(value / (1024 * 1024));
-        if (!Object.hasOwn(aggregator, key)) {
-            aggregator[key] = [];
-        }
-        aggregator[key].push(mb);
-        result[key] = `${mb}MB`;
-    }
-    return result;
-}
-
-function statistics() {
-    const result: { [s: string]: string; } = {};
-    for (const [key, value] of Object.entries(aggregator)) {
-        const mean = Math.round(value.reduce((a, b) => a + b, 0) / value.length);
-        const max = value.reduce((a, b) => a < b ? b : a, 0);
-        const min = value.reduce((a, b) => a < b ? a : b, max);
-        result[key] = `mean: ${mean}MB, min: ${min}MB, max: ${max}MB`;
-    }
-    return result;
-}
-
 try {
-    await test('Begin', async (t) => {
-        await t.test(JSON.stringify(memoryUsage()));
-    });
-
     const unitBTCPWorker = new worker_threads.Worker("./dist/worker_tcp_port_3000.js");
     await new Promise((r) => unitBTCPWorker.once('online', r));
     await new Promise((r) => unitBTCPWorker.once('message', r));
@@ -59,7 +27,6 @@ try {
     const chars4 = '0'.repeat(QUEUE_SIZE_LIMIT);
 
     await test('Test variations of uni-directional and bi-directional methods calls.', async (t) => {
-
         const socket = net.connect({ port: 3000, host: '127.0.0.1' });
         // socketUnitB.on('error', console.error);
         await new Promise((r) => socket.on('ready', r));
@@ -111,7 +78,6 @@ try {
     });
 
     await test('Test subversive method calls.', async (t) => {
-
         const socket = net.connect({ port: 3001, host: '127.0.0.1' });
         socket.on('error', console.error);
         await new Promise((r) => socket.on('ready', r));
@@ -121,10 +87,16 @@ try {
         await t.test('Call an undefined method.', async () => {
             await assert.rejects(unitC.undefinedMethod(''), { name: 'TypeError' });
         });
+
+        await t.test('Call a method on a function.', async () => {
+            const result = unitC.echoString.bind(null);
+            if (result instanceof Promise) {
+                assert.strictEqual(await result, null);
+            }
+        });
     });
 
     await test('Test bi-directional calls over a stream.Duplex in object mode.', async (t) => {
-
         const unitBWorker = new worker_threads.Worker("./dist/worker_message_port.js");
         await new Promise((r) => unitBWorker.once('online', r));
         await new Promise((r) => unitBWorker.once('message', r));
@@ -143,11 +115,5 @@ try {
 catch (err) {
     console.error(err);
 }
-finally {
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await test('Summary', async (t) => {
-        await t.test(JSON.stringify(memoryUsage()));
-        await t.test(JSON.stringify(statistics(), null, " "));
-    });
-}
+
 
