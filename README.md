@@ -2,7 +2,7 @@
 A type-safe asynchronous RPC Service facility for connecting your app to the network.
 
 ## Introduction
-*Network-Services* provides a simple and intuitive toolkit that makes scaling your app and connecting your app to the network *easy*.  You can use *Network-Services* to transform your application into a network connected [Service App](#service-app).  You can connect to your Service App, from the same process or another process, and call methods on it using a type-safe [Service API](#service-api).
+*Network-Services* provides a simple and intuitive toolkit that makes connecting your app to the network *easy*.  You can use *Network-Services* to transform your application into a network connected [Service App](#service-app).  You can connect to your Service App, from the same process or another process, and call methods on it using a type-safe [Service API](#service-api).  You can optionally use a [Service Pool](#service-pool) to scale your Service App.
 
 A *Network-Services* app can be explained with a complete and simple example.  In the "Hello, world!" example shown below, a Greeter Service App is hosted on 127.0.0.1:3000 and its `greeter.greet` method is called over a `net.Socket` using a Service API of type `Greeter`.
 
@@ -11,8 +11,8 @@ A *Network-Services* app can be explained with a complete and simple example.  I
 ### Features
 - Type-safe APIs: *code completion*, *parameter types*, and *return types*.
 - **Easily scale your Service App using a [Service Pool](#scaling).**
-- Return values *and* Errors are marshalled back to the caller.
-- Infinite property nesting; you can use a Service API to call *nested* properties on a Service App at any depth.
+- Return values *and* Errors are [marshalled](#marshalling) back to the caller.
+- Infinite [property nesting](#use-network-services-to-create-an-api-with-a-nested-method-example); you can use a Service API to call *nested* properties on a Service App at any depth.
 - [Bi-directional](#use-network-services-to-create-bi-directional-type-safe-apis-example) asynchronous RPC over TCP.
 - [Security](#security) can be implemented using the native Node [TLS module](https://nodejs.org/docs/latest-v20.x/api/tls.html) (i.e., TLS and Client Certificate Authentication).
 - A configurable [message protocol](#message-protocol). You can marshal your messages however you choose (e.g., JSON, binary, etc.), or use the default *minimalist* JSON message protocol.
