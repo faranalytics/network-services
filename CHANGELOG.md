@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.1] - 2024-02-11
+### Changed
+- Improve documentation.
+- Improve tests.
+- Improve examples.
+
 ## [1.1.0] - 2024-02-10
 ### Added
 - Add a port parameter to the `PortStream` constructor.
