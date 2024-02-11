@@ -13,7 +13,7 @@ A *Network-Services* app can be explained with a complete and simple example.  I
 - **Easily scale your Service App using a [Service Pool](#scaling).**
 - Return values *and* Errors are marshalled back to the caller.
 - Infinite property nesting; you can use a Service API to call *nested* properties on a Service App at any depth.
-- Bi-directional asynchronous RPC over TCP.
+- [Bi-directional](#use-network-services-to-create-bi-directional-type-safe-apis-example) asynchronous RPC over TCP.
 - [Security](#security) can be implemented using the native Node [TLS module](https://nodejs.org/docs/latest-v20.x/api/tls.html) (i.e., TLS and Client Certificate Authentication).
 - A configurable [message protocol](#message-protocol). You can marshal your messages however you choose (e.g., JSON, binary, etc.), or use the default *minimalist* JSON message protocol.
 - [Extend](#extend-network-services) *Network-Services* using the native `stream.Duplex` interface.
