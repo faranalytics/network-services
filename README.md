@@ -43,7 +43,7 @@ A *Network-Services* app can be explained with a complete and simple example.  I
     - [Use TLS encryption.](#use-tls-encryption)
     - [Use TLS client certificate authentication.](#use-tls-client-certificate-authentication)
     - [Restrict API calls at runtime.](#restrict-api-calls-at-runtime)
-    - [Specify an `ingressQueueLimit` and `egressQueueLimit` in the Service options.](#specify-an-ingressqueuesizelimit-and-egressqueuesizelimit-in-the-service-options)
+    - [Specify an `ingressQueueSizeLimit` and `egressQueueSizeLimit` in the Service options.](#specify-an-ingressqueuesizelimit-and-egressqueuesizelimit-in-the-service-options)
 - [Best Practices](#best-practices)
     - [Create a TypeScript interface for your Service API.](#create-a-typescript-interface-for-your-service-api)
     - [Set a timeout in `ServiceAPIOptions`.](#set-a-timeout-in-serviceapioptions)
