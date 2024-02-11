@@ -188,11 +188,12 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
     - `workerOptions` `<worker_threads.WorkerOptions>` Optional `worker_threads.WorkerOptions` to be passed to each Worker instance.
 - Returns: `<ServicePool>`
 
-### network-services.createPortStream(options)
+### network-services.createPortStream(port, options)
+- `port` `<worker_threads.MessagePort | worker_threads.Worker>` An optional `MessagePort` to be wrapped by a `stream.Duplex`. **Default**: `worker_threads.parentPort`
 - `options` `<internal.DuplexOptions>` An optional `internal.DuplexOptions` object to be passed to the `PortStream` parent class.
 - Returns: `<PortStream>`
 
-A `PortStream` wraps the `parentPort` of the Worker thread into a `stream.Duplex`.  Hence, a `PortStream` *is a* `stream.Duplex`, so it can be passed to the *Network-Services* `createService` helper function.  This is the stream adapter that is used in the Worker module.
+A `PortStream` defaults to wrapping the `parentPort` of the Worker thread into a `stream.Duplex`.  Hence, a `PortStream` *is a* `stream.Duplex`, so it can be passed to the *Network-Services* `createService` helper function.  This is the stream adapter that is used in the Worker module.
 
 ## Type Safety
 *Network-Services* provides a facility for building a type safe network API.  The type safe API facility is realized through use of JavaScript's Proxy object and TypeScript's type variables. A Proxy interface is created by passing your app's public interface to the type parameter of the `service.createServiceAPI<T>` helper function.  The type safe Proxy interface facilitates *code completion*, *parameter types*, and *return types*; it helps safeguard the integrity of your API.  
