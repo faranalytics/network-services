@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { test } from 'node:test';
 import * as net from "node:net";
 import * as crypto from "node:crypto";
@@ -78,22 +77,39 @@ try {
     });
 
     await test('Test subversive method calls.', async (t) => {
-        const socket = net.connect({ port: 3001, host: '127.0.0.1' });
-        socket.on('error', console.error);
-        await new Promise((r) => socket.on('ready', r));
-        const service = createService(socket, { egressQueueSizeLimit: QUEUE_SIZE_LIMIT, ingressQueueSizeLimit: QUEUE_SIZE_LIMIT });
-        const unitC = service.createServiceAPI<IUnitC>();
+        {
+            const socket = net.connect({ port: 3001, host: '127.0.0.1' });
+            socket.on('error', console.error);
+            await new Promise((r) => socket.on('ready', r));
+            const service = createService(socket, { egressQueueSizeLimit: QUEUE_SIZE_LIMIT, ingressQueueSizeLimit: QUEUE_SIZE_LIMIT });
+            const unitC = service.createServiceAPI<IUnitC>();
 
-        await t.test('Call an undefined method.', async () => {
-            await assert.rejects(unitC.undefinedMethod(''), { name: 'TypeError' });
-        });
+            await t.test('Call an undefined method.', async () => {
+                await assert.rejects(unitC.undefinedMethod(''), { name: 'TypeError' });
+            });
 
-        await t.test('Call a method on a function.', async () => {
-            const result = unitC.echoString.bind(null);
-            if (result instanceof Promise) {
-                assert.strictEqual(await result, null);
-            }
-        });
+            await t.test('Call a method on a function object.', async () => {
+                const result = unitC.echoString.bind(null);
+                if (result instanceof Promise) {
+                    assert.strictEqual(await result, null);
+                }
+            });
+        }
+
+        {
+            const socket = net.connect({ port: 3000, host: '127.0.0.1' });
+            socket.on('error', console.error);
+            await new Promise((r) => socket.on('ready', r));
+            const service = createService(socket, { egressQueueSizeLimit: QUEUE_SIZE_LIMIT, ingressQueueSizeLimit: QUEUE_SIZE_LIMIT });
+            const unitB = service.createServiceAPI<UnitB>();
+
+            await t.test('Call a method that is not a defined property path.', async () => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
+                await assert.rejects(unitB.undefinedMethod(''), { name: 'PropertyPathError' });
+            });
+        }
     });
 
     await test('Test bi-directional calls over a stream.Duplex in object mode.', async (t) => {
