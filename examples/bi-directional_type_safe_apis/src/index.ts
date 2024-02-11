@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import * as net from "node:net";
 import { Async, createService } from 'network-services';
 
@@ -46,7 +46,7 @@ server.on('connection', (socket: net.Socket) => {
 });
 
 
-//DataProvider
+// DataProvider
 interface IDataProvider {
     start(): Promise<void>;
     stop(): Promise<void>;
@@ -79,7 +79,6 @@ class DataProvider implements IDataProvider {
 
 const socket = net.connect({ port: 3000, host: '127.0.0.1' });
 socket.on('error', console.error);
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
 socket.on('ready', async () => {
     try {
         const service = createService(socket);
