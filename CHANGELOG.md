@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.0] - 2024-02-10
+### Added
+- Add a port parameter to the `PortStream` constructor.
+### Changed
+- Improve documentation.
+- Improve and formalize tests.
+- Improve examples.
+### Fixed
+- Fix a bug in tree traversal that can errantly invoke a function along the property path.
+- Implement a more authentic tree traversal algorithm.  The effect of calling a remote method using a Service API should - to whatever extent possible - resemble the effect of calling the same method on a locally referenced object.  For example, it is now possible to traverse into a method of a function object e.g., `Function.prototype.bind`.  Please see the instructions for imposing runtime property path restrictions in the [README.md](https://github.com/faranalytics/network-services?tab=readme-ov-file#impose-property-path-restrictions).
+
 ## [1.0.4] - 2024-02-04
 ### Fixed
 - Improve logic around how message headers are read.
