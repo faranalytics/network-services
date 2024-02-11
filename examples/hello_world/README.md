@@ -2,7 +2,7 @@
 
 In this example you will use Network-Services in order to create a "Hello, World!" `Greeter` Service App and call its `greeter.greet` method and log the returned greeting.
 
-## Instructions
+## Implementation
 
 ### How to create a "Hello, World!" Greeter Service App.
 
@@ -46,6 +46,8 @@ socket.on('ready', async () => {
 Please make sure your firewall is configured to allow connections on `127.0.0.1:3000` for this example to work.
 
 ## Instructions
+
+Follow the instructions to run the example.
 
 ### Clone the Network-Services repo.
 ```bash

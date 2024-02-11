@@ -2,7 +2,7 @@
 
 In this example you will create two modules: A module named `service.ts` that will contain your scaled `Greeter` Service.  A module named `index.ts` that will spawn 10 instances of the `service.ts` module using a Service Pool.  You will create 10 connections to the remote Server and connect each `net.Socket` to the Service Pool.  You will use the Service API to call the `greeter.greet` method over each connection.  Each call will be handled round-robin by the Service in each Worker thread. 
 
-## Instructions
+## Implementation
 
 ### Create the `index.ts` module.
 `index.ts`
@@ -70,6 +70,8 @@ service.createServiceApp(greeter); // Create a Service App.
 Please make sure your firewall is configured to allow connections on `127.0.0.1:3000` for this example to work.
 
 ## Instructions
+
+Follow the instructions to run the example.
 
 ### Clone the Network-Services repo.
 ```bash

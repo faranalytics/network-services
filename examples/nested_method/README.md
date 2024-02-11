@@ -2,7 +2,7 @@
 
 As in the Hello World example, in this example you will use Network-Services in order to create a Hello World `Greeter` Service; however, this `Greeter` *is a* `TruthSayer` who *has a* `secret`.  You will drill into the `Greeter` object and call its `Greeter.secret.tell` method and log the returned secret.
 
-## Instructions
+## Implementation
 
 ### How to create a Hello World Greeter Service App with a nested method.
 
@@ -62,6 +62,8 @@ socket.on('ready', async () => {
 Please make sure your firewall is configured to allow connections on `127.0.0.1:3000` for this example to work.
 
 ## Instructions
+
+Follow the instructions to run the example.
 
 ### Clone the Network-Services repo.
 ```bash
