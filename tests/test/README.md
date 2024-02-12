@@ -12,6 +12,14 @@ git clone https://github.com/faranalytics/network-services.git
 ```bash
 cd network-services
 ```
+### Install dependencies.
+```bash
+npm install && npm update
+```
+### Build *Network-Services*.
+```bash
+npm run clean:build
+```
 ### Run the tests.
 ```bash
 npm test
