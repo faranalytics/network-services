@@ -1,7 +1,4 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Node LTS",
-  "_version": "18.1.0",
   "compilerOptions": {
     "lib": [
       "es2022"
@@ -17,5 +14,7 @@
     "rootDir": "./src",
     "declaration": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }
