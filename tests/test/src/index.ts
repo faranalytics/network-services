@@ -69,27 +69,30 @@ try {
             await assert.rejects(unitB.hasA.hasA_throwError('Error'), { name: 'Error' });
         });
 
-        await test('Call a method that is not a defined property path.', async () => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
-            await assert.rejects(unitB.undefinedMethod(''), { name: 'PropertyPathError' });
-            await unitB.deletePaths();
-        });
+        await describe('Test subversive method calls.', async () => {
 
-        await test('Call an undefined method.', async () => {
-            await assert.rejects(unitB.undefinedMethod(''), { name: 'TypeError' });
-        });
+            await test('Call a method that is not a defined property path.', async () => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
+                await assert.rejects(unitB.undefinedMethod(''), { name: 'PropertyPathError' });
+                await unitB.deletePaths();
+            });
 
-        await test('Call a method on a function object.', async () => {
-            const result = unitB.echoString.bind(null);
-            if (result instanceof Promise) {
-                assert.strictEqual(await result, null);
-            }
-        });
+            await test('Call an undefined method.', async () => {
+                await assert.rejects(unitB.undefinedMethod(''), { name: 'TypeError' });
+            });
 
-        await test('Make a call that exceeds the queue size limit.', async () => {
-            await assert.rejects(unitB.echoString(chars4), { name: 'QueueSizeLimitError' });
+            await test('Call a method on a function object.', async () => {
+                const result = unitB.echoString.bind(null);
+                if (result instanceof Promise) {
+                    assert.strictEqual(await result, null);
+                }
+            });
+
+            await test('Make a call that exceeds the queue size limit.', async () => {
+                await assert.rejects(unitB.echoString(chars4), { name: 'QueueSizeLimitError' });
+            });
         });
     });
 

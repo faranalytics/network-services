@@ -4,7 +4,7 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "cd ./tests/test && npm install && npm update && npm run clean:build && npm start",
+    "test": "cd ./tests/test && npm install && npm run clean:build && npm start",
     "clean": "rm -rf ./dist/*",
     "build": "tsc --build .",
     "clean:build": "npm run clean && npm run build",
