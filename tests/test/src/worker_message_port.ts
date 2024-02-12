@@ -5,7 +5,7 @@ import { UnitA } from './unit_a.js';
 
 const portStream = createPortStream();
 const service = createService(portStream);
-const asyncUnitA = service.createServiceAPI<UnitA>();
-const unitB = new UnitB(asyncUnitA);
+const unitA = service.createServiceAPI<UnitA>();
+const unitB = new UnitB(unitA, service);
 service.createServiceApp(unitB);
 parentPort?.postMessage('ready');

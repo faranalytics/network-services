@@ -10,9 +10,9 @@ try {
         socket.on('error', console.error);
         const service = createService(socket, { egressQueueSizeLimit: 1e8, ingressQueueSizeLimit: 1e8 });
         const unitA = service.createServiceAPI<UnitA>();
-        const unitB = new UnitB(unitA);
+        const unitB = new UnitB(unitA, service);
         service.createServiceApp<UnitB>(unitB, {
-            paths: ['echoString', 'echoStrings', 'callError', 'throwError', 'increment2', 'hasA.hasA_echoString', 'hasA.hasA_throwError', 'isA_hasA.hasA_echoString']
+            paths: ['deletePaths', 'echoString', 'echoStrings', 'callError', 'throwError', 'increment2', 'hasA.hasA_echoString', 'hasA.hasA_throwError', 'isA_hasA.hasA_echoString']
         });
     });
     server.once('listening', () => parentPort?.postMessage('ready'));

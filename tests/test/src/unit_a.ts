@@ -1,10 +1,10 @@
 import { Async } from "network-services";
-import { UnitB } from "./unit_b.js";
+import { IUnitB } from "./unit_b.js";
 import { NotImplementedError } from "./errors.js";
 
 export class UnitA {
-    private unitB: Async<UnitB>;
-    constructor(unitB: Async<UnitB>) {
+    private unitB: Async<IUnitB>;
+    constructor(unitB: Async<IUnitB>) {
         this.unitB = unitB;
     }
 

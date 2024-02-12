@@ -1,4 +1,4 @@
-import { Async } from "network-services";
+import { Async, Service } from "network-services";
 import { UnitA } from "./unit_a.js";
 import { NotImplementedError } from "network-services";
 
@@ -26,23 +26,44 @@ class IsA {
     }
 }
 
+export interface IUnitB extends IsA {
+    hasA: HasA;
+    deletePaths(): void;
+    undefinedMethod(data: string): string;
+    echoString(data: string): string;
+    echoStrings(str1: string, str2: string): Array<string>;
+    callError(message: string): Promise<void>;
+    throwError(message: string): void;
+    doNotCall(data: string): string;
+    increment2(n: number): Promise<number>;
+    exit(): void;
+}
+
 export class UnitB extends IsA {
+
     public hasA: HasA = new HasA();
     private unitA: Async<UnitA>;
-    constructor(UnitA: Async<UnitA>) {
+    private service: Service;
+
+    constructor(UnitA: Async<UnitA>, service: Service) {
         super();
         this.unitA = UnitA;
+        this.service = service;
+    }
+
+    deletePaths(): void {
+        delete this.service.serviceApp?.paths;
     }
 
     echoString(data: string): string {
         return data;
     }
 
-    echoStrings(str1: string, str2: string) {
+    echoStrings(str1: string, str2: string): Array<string> {
         return [str1, str2];
     }
 
-    async callError(message: string) {
+    async callError(message: string): Promise<void> {
         await this.unitA.throwError(message);
     }
 
