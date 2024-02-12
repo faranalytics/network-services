@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.2] - 2024-02-12
+### Added
+- Add engine specification.
+
 ## [1.1.1] - 2024-02-11
 ### Changed
 - Improve documentation.
