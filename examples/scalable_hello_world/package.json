@@ -12,8 +12,8 @@
   "author": "FAR",
   "license": "MIT",
   "engines": {
-    "npm": ">=10.2.4",
-    "node": ">=20.11.0"
+    "npm": ">=10.2.3",
+    "node": ">=18.19.0"
   },
   "dependencies": {
     "network-services": "^1.0.0"

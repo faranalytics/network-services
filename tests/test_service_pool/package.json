@@ -16,8 +16,8 @@
   },
   "type": "module",
   "engines": {
-    "npm": ">=10.2.4",
-    "node": ">=20.11.0"
+    "npm": ">=10.2.3",
+    "node": ">=18.19.0"
   },
   "devDependencies": {
     "@types/node": "^20.6.2",
