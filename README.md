@@ -2,7 +2,7 @@
 A type-safe asynchronous RPC Service facility for connecting your app to the network.
 
 ## Introduction
-*Network-Services* provides a simple and intuitive toolkit that makes connecting your app to the network *easy*.  You can use *Network-Services* to transform your application into a network connected [Service App](#service-app).  You can connect to your Service App, from the same process or another process, and call methods on it using a type-safe [Service API](#service-api).  You can optionally use a [Service Pool](#service-pool) to scale your Service App.
+*Network-Services* provides a simple and intuitive toolkit that makes connecting your app to the network *easy*.  You can use *Network-Services* to transform your application into a network connected [Service App](#service-app).  You can connect to your Service App from the same process or another process and call methods on it using a type-safe [Service API](#service-api).  You can optionally use a [Service Pool](#service-pool) to scale your Service App.
 
 A *Network-Services* app can be explained with a complete and simple example.  In the "Hello, world!" example shown below, a Greeter Service App is hosted on 127.0.0.1:3000 and its `greeter.greet` method is called over a `net.Socket` using a Service API of type `Greeter`.
 
@@ -75,7 +75,7 @@ A Service API is a type safe representation of your remote Service App.  You can
 
 ### Service Pool
 
-A Service Pool is a utility feature that facilitates scaling Service Apps using Worker threads. The Service Pool implementation is just one of many [scaling](#scaling) models that could be used to scale a *Network-Services* app.  You can create a Service Pool using the `network-services.createServicePool` helper function.  Because a pool of Service Apps may be shared by many Service API clients (i.e., a many-to-many relationship), the Service Pool implementation is limited to request-response messaging; a request (i.e., a method call) is made using a Service API and the response (i.e., the return value) from the Service App is returned to the caller.  However, a more sophisticated implementation could support coordinated bi-directional communication between many Service API clients and a pool of Service Apps. 
+A Service Pool is an optional utility feature that facilitates scaling Service Apps using Worker threads. The Service Pool implementation is just one of many [scaling](#scaling) models that could be used in order to scale a *Network-Services* app.  You can create a Service Pool using the `network-services.createServicePool` helper function.  Because a pool of Service Apps may be shared by many Service API clients (i.e., a many-to-many relationship), the Service Pool implementation is limited to request-response messaging; a request (i.e., a method call) is made using a Service API and the response (i.e., the return value) from the Service App is returned to the caller.  However, a more sophisticated implementation could support coordinated bi-directional communication between many Service API clients and a pool of Service Apps. 
 
 Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/scalable_hello_world) example for a working implementation using a Service Pool.
 
@@ -151,20 +151,20 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
 - `options` `<ServiceOptions & MuxOptions>`
     - `ingressQueueSizeLimit` `<number>` An optional ingress buffer size limit in bytes.  This argument specifies the limit on buffered data that may accumulate from calls *from* the remote Service API and return values *from* the remote Service App.  If the size of the ingress buffer exceeds this value, the stream will emit a `QueueSizeLimitError` and close.  **Default:** `undefined` (i.e., no limit).
     - `egressQueueSizeLimit` `<number>` An optional egress buffer size limit in bytes.  This argument specifies the limit on buffered data that may accumulate from calls *to* the remote Service App and return values *to* the remote Service API. If the size of the egress buffer exceeds this value, a `QueueSizeLimitError` will be thrown and the stream will close.  **Default:** `undefined` (i.e., no limit).
-    - `muxClass` `<MuxConstructor>` An optional `Mux` implementation.  Messages are muxed as they enter and leave the `stream.Duplex`.  You can use one of the default muxers or provide a custom implementation.  For example, you can extend the default `network-services.BufferMux` and override the `serializeMessage` and `deserializeMessage` methods in order to implement a custom [message protocol](#message-protocol) (e.g., a binary message protocol).  If a custom `Mux` implementation is not provided here, *Network-Services* will provide a default `Mux` implementation compatible with the underlying `stream.Duplex`.  Default muxers respect back-pressure.  **Default:**  a `BufferMux` or a `ObjectMux` for streams in object mode.
+    - `muxClass` `<MuxConstructor>` An optional `Mux` implementation.  Messages are muxed as they enter and leave the `stream.Duplex`.  You can use one of the default muxers or provide a custom implementation.  For example, you can extend the default `network-services.BufferMux` and override the `serializeMessage` and `deserializeMessage` methods in order to implement a custom [message protocol](#message-protocol) (e.g., a binary message protocol).  If a custom `Mux` implementation is not provided here, *Network-Services* will provide a default `Mux` implementation compatible with the underlying `stream.Duplex`.  Default muxers respect back-pressure.  **Default:**  a `BufferMux` or an `ObjectMux` for streams in object mode.
 - Returns: `<Service>`
 
 ### service.createServiceApp\<T\>(app, options)
 - `app` `<object>` An instance of your application.
 - `options` `<ServiceAppOptions<T>>`
-    - `paths` `<Array<PropPath<Async<T>>>>` An `Array` of *property paths* (i.e., dot-path `string`s).  *If defined*, only property paths in this list may be called on the Service App. Each element of the Array is a `PropPath` and a `PropPath` is simply a dot-path `string` representation of a property path.  Please see the [Nested Method](https://github.com/faranalytics/network-services/tree/main/examples/nested_method) example for a working example.  **Default:** `undefined`.
+    - `paths` `<Array<PropPath<Async<T>>>>` An `Array` of *property paths* (i.e., dot-path `string`s).  *If defined*, only property paths in this list may be called on the Service App. Each element of the array is a `PropPath` and a `PropPath` is simply a dot-path `string` representation of a property path.  Please see the [Nested Method](https://github.com/faranalytics/network-services/tree/main/examples/nested_method) example for a working implementation.  **Default:** `undefined`.
 - Returns: `<ServiceApp<T>>`
 
 ### service.createServiceAPI\<T\>(options)
 - `options` `<ServiceAPIOptions>`
     - `timeout` `<number>` Optional argument in milliseconds that specifies the `timeout` for function calls. **Default:** `undefined` (i.e., no timeout).
     - `identifierGenerator` `<IdentifierGenerator>` An optional instance of a class that implements the `network-services.IdentifierGenerator` interface.  This class instance will be used in order to generate a unique identifier for each API call.  The default `network-services.NumericIdentifierGenerator` will work for the common case; however, a more robust solution may be required for certain custom implementations. **Default:** `network-services.NumericIdentifierGenerator`
-- Returns: `<Async<T>>` A `Proxy` of type `<T>` that consists of asynchronous analogues of methods in `<T>`.
+- Returns: `<Async<T>>` A type cast `Proxy` object of type `<Async<T>>` that consists of asynchronous analogues of methods in `<T>`.
 
 > The `service.createServiceAPI<T>` helper function returns a JavaScript `Proxy` object cast to type `<Async<T>>`.  `service.createServiceAPI<T>` filters and transforms the function types that comprise `<T>` into their asynchronous analogues i.e., if a function type isn't already defined as returning a `Promise`, it will be transformed to return a `Promise` - otherwise its return type will be left unchanged.  This transformation is necessary because all function calls over a `stream.Duplex` (e.g., a `net.Socket`) are asynchronous.  Please see the [Bi-directional Type Safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-example) example for how to easily consume a `<Async<T>>` in your application.
 
@@ -174,7 +174,7 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
   - If a call exceeds the `egressQueueSizeLimit`, the `Promise` will reject with `QueueSizeLimitError` as its reason and the stream will close.
   - If an `error` event occurs on the `stream.Duplex`, the `Promise` will reject with the given reason.
   - If the `stream.Duplex` closes, the `Promise` will reject with `StreamClosedError` as its reason.
-  - If the `paths` Array is defined in the remote `ServiceAppOptions<T>` and a method is called that is not a registered property path, the `Promise` will reject with `PropertyPathError` as its reason.
+  - If the `paths` array is defined in the remote `ServiceAppOptions<T>` and a method is called that is not a registered property path, the `Promise` will reject with `PropertyPathError` as its reason.
   - If a property is invoked that is not a function on the remote Service App, the `Promise` will reject with `TypeError` as its reason.
   - If the call fails to resolve or reject prior to the `timeout` specified in `ServiceAPIOptions`, the `Promise` will reject with `CallTimeoutError` as its reason.
 
@@ -193,7 +193,7 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
 - `options` `<internal.DuplexOptions>` An optional `internal.DuplexOptions` object to be passed to the `PortStream` parent class.
 - Returns: `<PortStream>`
 
-A `PortStream` defaults to wrapping the `parentPort` of the Worker thread into a `stream.Duplex`.  Hence, a `PortStream` *is a* `stream.Duplex`, so it can be passed to the *Network-Services* `createService` helper function.  This is the stream adapter that is used in the Worker module.
+A `PortStream` defaults to wrapping the `parentPort` of the Worker thread into a `stream.Duplex`.  Hence, a `PortStream` *is a* `stream.Duplex`, so it can be passed to the *Network-Services* `createService` helper function.  This is the stream adapter that is used in the Worker modules that comprise a Service Pool.
 
 ## Type Safety
 *Network-Services* provides a facility for building a type safe network API.  The type safe API facility is realized through use of JavaScript's Proxy object and TypeScript's type variables. A Proxy interface is created by passing your app's public interface to the type parameter of the `service.createServiceAPI<T>` helper function.  The type safe Proxy interface facilitates *code completion*, *parameter types*, and *return types*; it helps safeguard the integrity of your API.  
@@ -206,7 +206,9 @@ Please see the [Bi-directional Type Safe APIs](#use-network-services-to-create-b
 The [*Scalability*](https://github.com/faranalytics/scalability) package, for example, uses *Network-Services* in order to scale an arbitrary Service App using Worker threads.
 
 ## Scaling
-*Network-Services* is architected in order to support a variety of scaling models.  The model implemented by the utility [Service Pool](#service-pool) facility, which supports request-response messaging, is just one of many possible approaches to scaling an application built on *Network-Services*.  For example, a Service Pool implementation where there is a one-to-one relationship between Service APIs and Service Apps would permit bi-directional communication.  An alternative approach may be to run multiple servers in separate processes or Worker threads, connect to each of them, and round-robin through the respective Service APIs.  Likewise, a container orchestration framework could be used to easily scale a *Network-Services* app.
+*Network-Services* is architected in order to support a variety of scaling models.  The model implemented by the utility [Service Pool](#service-pool) facility, which supports request-response messaging, is just one of many possible approaches to scaling an application built on *Network-Services*.  
+
+For example, a Service Pool implementation where there is a one-to-one relationship between Service APIs and Service Apps would facilitate bi-directional communication.  An alternative approach may be to run multiple servers in separate processes or Worker threads, connect to each of them, and round-robin through the respective Service APIs.  Likewise, a container orchestration framework could be used in order to easily scale a *Network-Services* app.
 
 Complexities arise when muxing many-to-many relationships; hence, please see the simple and capable [`ServicePool`](https://github.com/faranalytics/network-services/blob/main/src/service_pool.ts) implementation for relevant considerations if you wish to draft a custom implementation. 
 
@@ -254,7 +256,7 @@ TLS Encryption may be implemented using native Node.js [TLS Encryption](https://
 TLS Client Certificate Authentication may be implemented using native Node.js [TLS Client Authentication](https://nodejs.org/docs/latest-v20.x/api/tls.html).  Please see the [TLS Encryption and Client Authentication](https://github.com/faranalytics/network-services/tree/main/examples/tls_encryption_and_client_auth) example for a working implementation.
 
 ### Restrict API calls at runtime.
-The Service API and type safety are not enforced at runtime. You can restrict API calls to specified Service App methods by providing an Array of property paths to the `paths` property of the `ServiceAppOptions<T>` object.  If the `paths` Array is defined in `ServiceAppOptions<T>` and a method is called that is not a registered property path, the awaited `Promise` will reject with `PropertyPathError` as its reason.
+The Service API and type safety are not enforced at runtime. You can restrict API calls to specified Service App methods by providing an `Array` of property paths to the `paths` property of the `ServiceAppOptions<T>` object.  If the `paths` array is defined in `ServiceAppOptions<T>` and a method is called that is not a registered property path, the awaited `Promise` will reject with `PropertyPathError` as its reason.
 
 ### Specify an `ingressQueueSizeLimit` and `egressQueueSizeLimit` in the Service options.
 *Network-Services* respects backpressure; however, it is advisable to specify how much data may be buffered in order to ensure your *application* can respond to adverse network phenomena.  If the stream peer reads data at a rate that is slower than the rate that data is written to the stream, data may buffer until memory is exhausted.  This is a [vulnerability](https://nodejs.org/api/stream.html#writablewritechunk-encoding-callback) that is inherent in streams, which can be mitigated by preventing internal buffers from growing too large.  
@@ -284,7 +286,7 @@ Unless you control the definition of both the Service API and the Service App, y
 *Network-Services* assumes that the `stream.Duplex` passed to `createService` is [*ready*](https://nodejs.org/api/net.html#event-ready) to use; this assumption and separation of concern is an intentional design decision.  A `stream.Duplex` implementation (e.g., a `net.Socket`) *may* include an event (e.g., something like `'ready'` or `'connect'`) that will indicate it is ready for use.  Please await this event, if available, prior to passing the `stream.Duplex` to the `createService` helper function.
 
 ### If you create a stream (e.g., a `net.Socket`), set an `error` handler on it.
-A `stream.Duplex` may error before becoming *ready*; hence, as usual, you should *synchronously* set an error handler on a new stream instance.
+A `stream.Duplex` may error even before becoming *ready*; hence, as usual, you should *synchronously* set an error handler on a new stream instance.
 
 ### Close and dereference streams in order to prevent memory leaks.
 The object graph of a Service instance is rooted on its stream.  It will begin decomposition immediately upon stream closure.  However, in order to fully dispose of a Service instance, simply destroy and dereference its stream; GC will sweep buffers and other liminal resources.
