@@ -125,7 +125,7 @@ socket.on('ready', async () => {
 ```
 Please see the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example for a working implementation.  For a scalable implementation, please see the [Scalable "Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/scalable_hello_world) example.
 
-> In the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example communication is uni-directional (i.e., request-response messaging).  Please see the [bi-directional type safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-example) example for an example of bi-directional communication.
+> In the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example communication is uni-directional (i.e., it supports request-response messaging).  Please see the [Bi-directional Type Safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-example) example for how to implement bi-directional communication.
 
 ## Examples
 
