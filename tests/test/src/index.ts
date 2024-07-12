@@ -1,5 +1,5 @@
 import { after, describe, test } from 'node:test';
-import {once} from "node:events";
+import { once } from "node:events";
 import * as net from "node:net";
 import * as crypto from "node:crypto";
 import * as assert from "node:assert";
@@ -58,16 +58,16 @@ try {
             assert.strictEqual(await unitA.increment1(0), 3);
         });
 
-        void test('Call a method that throws an error.', async () => {
-            await assert.rejects(unitB.throwError('Error'), { name: 'NotImplementedError' });
+        void test('Call a method that throws an error.', () => {
+            void assert.rejects(unitB.throwError('Error'), { name: 'NotImplementedError' });
         });
 
-        void test('Call a method that bi-directionally calls another method that throws an Error.', async () => {
-            await assert.rejects(unitB.callError('Error'), { name: 'NotImplementedError' });
+        void test('Call a method that bi-directionally calls another method that throws an Error.', () => {
+            void assert.rejects(unitB.callError('Error'), { name: 'NotImplementedError' });
         });
 
-        void test('Call a nested method that throws an Error.', async () => {
-            await assert.rejects(unitB.hasA.hasA_throwError('Error'), { name: 'Error' });
+        void test('Call a nested method that throws an Error.', () => {
+            void assert.rejects(unitB.hasA.hasA_throwError('Error'), { name: 'Error' });
         });
 
         void describe('Test subversive method calls.', () => {
@@ -76,12 +76,12 @@ try {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
-                await assert.rejects(unitB.undefinedMethod(''), { name: 'PropertyPathError' });
+                void assert.rejects(unitB.undefinedMethod(''), { name: 'PropertyPathError' });
                 await unitB.deletePaths();
             });
 
-            void test('Call an undefined method.', async () => {
-                await assert.rejects(unitB.undefinedMethod(''), { name: 'TypeError' });
+            void test('Call an undefined method.', () => {
+                void assert.rejects(unitB.undefinedMethod(''), { name: 'TypeError' });
             });
 
             void test('Call a method on a function object.', async () => {
@@ -91,8 +91,8 @@ try {
                 }
             });
 
-            void test('Make a call that exceeds the queue size limit.', async () => {
-                await assert.rejects(unitB.echoString(chars4), { name: 'QueueSizeLimitError' });
+            void test('Make a call that exceeds the queue size limit.', () => {
+                void assert.rejects(unitB.echoString(chars4), { name: 'QueueSizeLimitError' });
             });
         });
     });
