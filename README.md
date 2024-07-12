@@ -51,7 +51,7 @@ A *Network-Services* app can be explained with a complete and simple example.  I
     - [Ensure your `stream.Duplex` (e.g., a `net.Socket`) is *ready* for use.](#ensure-your-streamduplex-eg-a-netsocket-is-ready-for-use)
     - [If you create a stream (e.g., a `net.Socket`), set an `error` handler on it.](#if-you-create-a-stream-eg-a-netsocket-set-an-error-handler-on-it)
     - [Close and dereference streams in order to prevent memory leaks.](#close-and-dereference-streams-in-order-to-prevent-memory-leaks)
-
+- [Test]
 ## Installation
 ```bash
 npm install network-services
@@ -290,3 +290,14 @@ A `stream.Duplex` may error even before becoming *ready*; hence, as usual, you s
 
 ### Close and dereference streams in order to prevent memory leaks.
 The object graph of a Service instance is rooted on its stream.  It will begin decomposition immediately upon stream closure.  However, in order to fully dispose of a Service instance, simply destroy and dereference its stream; GC will sweep buffers and other liminal resources.
+
+## Test
+
+### Install dependencies.
+```bash
+npm install && npm update
+```
+### Run tests.
+```bash
+npm test
+```
