@@ -129,19 +129,19 @@ Please see the ["Hello, World!"](https://github.com/faranalytics/network-service
 
 ## Examples
 
-### *An instance of "Hello, World!"* <sup><sup>(example)</sup></sup>
+### *An instance of "Hello, World!"* <sup><sup>\</example\></sup></sup>
 Please see the [Usage](#usage) section above or the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example for a working implementation.
 
-### *Use Network-Services to create bi-directional type safe APIs.* <sup><sup>(example)</sup></sup>
+### *Use Network-Services to create bi-directional type safe APIs.* <sup><sup>\</example\></sup></sup>
 Please see the [Bi-directional Type Safe APIs](https://github.com/faranalytics/network-services/tree/main/examples/bi-directional_type_safe_apis) example for a working implementation.
 
-### *Use Network-Services with TLS Encryption and Client Certificate Authentication.* <sup><sup>(example)</sup></sup>
+### *Use Network-Services with TLS Encryption and Client Certificate Authentication.* <sup><sup>\</example\></sup></sup>
 Please see the [TLS Encryption and Client Authentication](https://github.com/faranalytics/network-services/tree/main/examples/tls_encryption_and_client_auth) example for a working implementation.
 
-### *Use Network-Services to create an API with a nested method.* <sup><sup>(example)</sup></sup>
+### *Use Network-Services to create an API with a nested method.* <sup><sup>\</example\></sup></sup>
 Please see the [Nested Method](https://github.com/faranalytics/network-services/tree/main/examples/nested_method) example for a working implementation.
 
-### *Use Network-Services to scale a "Hello, World!" Greeter Service using a Service Pool.* <sup><sup>(example)</sup></sup>
+### *Use Network-Services to scale a "Hello, World!" Greeter Service using a Service Pool.* <sup><sup>\</example\></sup></sup>
 Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/scalable_hello_world) example for a working implementation.
 
 ## API
