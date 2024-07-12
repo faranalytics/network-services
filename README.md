@@ -51,7 +51,7 @@ A *Network-Services* app can be explained with a complete and simple example.  I
     - [Ensure your `stream.Duplex` (e.g., a `net.Socket`) is *ready* for use.](#ensure-your-streamduplex-eg-a-netsocket-is-ready-for-use)
     - [If you create a stream (e.g., a `net.Socket`), set an `error` handler on it.](#if-you-create-a-stream-eg-a-netsocket-set-an-error-handler-on-it)
     - [Close and dereference streams in order to prevent memory leaks.](#close-and-dereference-streams-in-order-to-prevent-memory-leaks)
-- [Test]
+- [Test](#test)
 ## Installation
 ```bash
 npm install network-services
