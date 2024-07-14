@@ -22,7 +22,7 @@
   "homepage": "https://github.com/faranalytics/network-services#readme",
   "engines": {
     "npm": ">=10.2.3",
-    "node": ">=18.19.0"
+    "node": ">=18.20.4"
   },
   "devDependencies": {
     "@types/node": "^20.8.4",
