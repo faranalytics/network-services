@@ -18,7 +18,7 @@ const chars2 = crypto.randomBytes(1e6).toString();
 const chars3 = crypto.randomBytes(1e6).toString();
 const chars4 = '0'.repeat(egressQueueSizeLimit);
 
-void describe('Test variations of uni-directional and bi-directional methods calls over a net.Socket.', async () => {
+await describe('Test variations of uni-directional and bi-directional methods calls over a net.Socket.', async () => {
     after(() => worker.terminate().catch(console.error));
 
     const worker = new worker_threads.Worker("./dist/worker_tcp_port_3000.js");
@@ -98,7 +98,7 @@ void describe('Test variations of uni-directional and bi-directional methods cal
     });
 });
 
-void describe('Test bi-directional calls over a stream.Duplex in object mode.', async () => {
+await describe('Test bi-directional calls over a stream.Duplex in object mode.', async () => {
     after(() => worker.terminate().catch(console.error));
 
     const worker = new worker_threads.Worker("./dist/worker_message_port.js");
