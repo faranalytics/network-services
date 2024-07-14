@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.5] - 2024-07-13
+### Changed
+- Improve tests.
+- Specify node `>=18.20.4`.
+
 ## [1.1.4] - 2024-07-13
 ### Changed
 - Improve documentation.
