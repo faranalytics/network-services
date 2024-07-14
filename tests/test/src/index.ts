@@ -18,7 +18,7 @@ const chars2 = crypto.randomBytes(1e6).toString();
 const chars3 = crypto.randomBytes(1e6).toString();
 const chars4 = '0'.repeat(egressQueueSizeLimit);
 
-void test('Test calls over a net.Socket.', async (t) => {
+void describe('Test variations of uni-directional and bi-directional methods calls over a net.Socket.', async () => {
     after(() => worker.terminate().catch(console.error));
 
     const worker = new worker_threads.Worker("./dist/worker_tcp_port_3000.js");
@@ -33,49 +33,47 @@ void test('Test calls over a net.Socket.', async (t) => {
     const unitA = new UnitA(unitB);
     service.createServiceApp<UnitA>(unitA, { paths: ['increment1', 'increment3', 'throwError'] });
 
-    await t.test('Test variations of uni-directional and bi-directional methods calls.', async (t) => {
 
-        await t.test('Call a method that echos a string.', async () => {
-            assert.strictEqual(await unitB.echoString(chars1), chars1);
-        });
-
-        await t.test('Call a nested method and echo a string.', async () => {
-            assert.strictEqual(await unitB.hasA.hasA_echoString(chars1), chars1);
-        });
-
-        await t.test('Call a nested method that is defined in the super class and echo a string.', async () => {
-            assert.strictEqual(await unitB.isA_hasA.hasA_echoString(chars1), chars1);
-        });
-
-        await t.test('Call a method that echos multiple arguments as an array of the arguments.', async () => {
-            assert.strictEqual(JSON.stringify(await unitB.echoStrings(chars1, chars2)), JSON.stringify([chars1, chars2]));
-        });
-
-        await t.test('Call echoString multiple times synchronously and asynchronously await their results.', async () => {
-            const results = await Promise.all([unitB.echoString(chars1), unitB.echoString(chars2), unitB.echoString(chars3)]);
-            assert.strictEqual(JSON.stringify(results), JSON.stringify([chars1, chars2, chars3]));
-        });
-
-        await t.test('Call a method that bi-directionally calls another method.', async () => {
-            assert.strictEqual(await unitA.increment1(0), 3);
-        });
-
-        await t.test('Call a method that throws an error.', async () => {
-            await assert.rejects(unitB.throwError('Error'), { name: 'NotImplementedError' });
-        });
-
-        await t.test('Call a method that bi-directionally calls another method that throws an Error.', async () => {
-            await assert.rejects(unitB.callError('Error'), { name: 'NotImplementedError' });
-        });
-
-        await t.test('Call a nested method that throws an Error.', async () => {
-            await assert.rejects(unitB.hasA.hasA_throwError('Error'), { name: 'Error' });
-        });
+    void test('Call a method that echos a string.', async () => {
+        assert.strictEqual(await unitB.echoString(chars1), chars1);
     });
 
-    await t.test('Test subversive method calls.', async (t) => {
+    void test('Call a nested method and echo a string.', async () => {
+        assert.strictEqual(await unitB.hasA.hasA_echoString(chars1), chars1);
+    });
 
-        await t.test('Call a method that is not a defined property path.', async () => {
+    void test('Call a nested method that is defined in the super class and echo a string.', async () => {
+        assert.strictEqual(await unitB.isA_hasA.hasA_echoString(chars1), chars1);
+    });
+
+    void test('Call a method that echos multiple arguments as an array of the arguments.', async () => {
+        assert.strictEqual(JSON.stringify(await unitB.echoStrings(chars1, chars2)), JSON.stringify([chars1, chars2]));
+    });
+
+    void test('Call echoString multiple times synchronously and asynchronously await their results.', async () => {
+        const results = await Promise.all([unitB.echoString(chars1), unitB.echoString(chars2), unitB.echoString(chars3)]);
+        assert.strictEqual(JSON.stringify(results), JSON.stringify([chars1, chars2, chars3]));
+    });
+
+    void test('Call a method that bi-directionally calls another method.', async () => {
+        assert.strictEqual(await unitA.increment1(0), 3);
+    });
+
+    void test('Call a method that throws an error.', async () => {
+        await assert.rejects(unitB.throwError('Error'), { name: 'NotImplementedError' });
+    });
+
+    void test('Call a method that bi-directionally calls another method that throws an Error.', async () => {
+        await assert.rejects(unitB.callError('Error'), { name: 'NotImplementedError' });
+    });
+
+    void test('Call a nested method that throws an Error.', async () => {
+        await assert.rejects(unitB.hasA.hasA_throwError('Error'), { name: 'Error' });
+    });
+
+    void describe('Test subversive method calls.', () => {
+
+        void test('Call a method that is not a defined property path.', async () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
@@ -83,24 +81,24 @@ void test('Test calls over a net.Socket.', async (t) => {
             await unitB.deletePaths();
         });
 
-        await t.test('Call an undefined method.', async () => {
+        void test('Call an undefined method.', async () => {
             await assert.rejects(unitB.undefinedMethod(''), { name: 'TypeError' });
         });
 
-        await t.test('Call a method on a function object.', async () => {
+        void test('Call a method on a function object.', async () => {
             const result = unitB.echoString.bind(null);
             if (result instanceof Promise) {
                 assert.strictEqual(await result, null);
             }
         });
 
-        await t.test('Make a call that exceeds the queue size limit.', async () => {
+        void test('Make a call that exceeds the queue size limit.', async () => {
             await assert.rejects(unitB.echoString(chars4), { name: 'QueueSizeLimitError' });
         });
     });
 });
 
-void test('Test bi-directional calls over a stream.Duplex in object mode.', async (t) => {
+void describe('Test bi-directional calls over a stream.Duplex in object mode.', async () => {
     after(() => worker.terminate().catch(console.error));
 
     const worker = new worker_threads.Worker("./dist/worker_message_port.js");
@@ -113,9 +111,7 @@ void test('Test bi-directional calls over a stream.Duplex in object mode.', asyn
     const unitA = new UnitA(unitB);
     service.createServiceApp<UnitA>(unitA, { paths: ['increment1', 'increment3', 'throwError'] });
 
-    await t.test('Test variations of uni-directional and bi-directional methods calls.', async (t) => {
-        await t.test('Call a method that bi-directionally calls another method.', async () => {
-            assert.strictEqual(await unitA.increment1(0), 3);
-        });
+    void test('Call a method that bi-directionally calls another method.', async () => {
+        assert.strictEqual(await unitA.increment1(0), 3);
     });
 });
