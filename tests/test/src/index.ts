@@ -71,7 +71,7 @@ await describe('Test variations of uni-directional and bi-directional methods ca
         await assert.rejects(unitB.hasA.hasA_throwError('Error'), { name: 'Error' });
     });
 
-    void describe('Test subversive method calls.', () => {
+    await describe('Test subversive method calls.', () => {
 
         void test('Call a method that is not a defined property path.', async () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
