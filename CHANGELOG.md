@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.5] - 2024-08-02
+### Changed
+- Improve documentation.
+
 ## [1.1.5] - 2024-07-13
 ### Changed
 - Improve tests.
