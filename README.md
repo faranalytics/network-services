@@ -178,7 +178,7 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
   - If a property is invoked that is not a function on the remote Service App, the `Promise` will reject with `TypeError` as its reason.
   - If the call fails to resolve or reject prior to the `timeout` specified in `ServiceAPIOptions`, the `Promise` will reject with `CallTimeoutError` as its reason.
 
-> ***NB*** The Service API and type safety is not enforced at runtime.  Please see the `paths` property of the `ServiceAppOptions<T>` object for runtime checks.
+> **NB** The Service API and type safety is not enforced at runtime.  Please see the `paths` property of the `ServiceAppOptions<T>` object for runtime checks.
 
 ### network-services.createServicePool(options)
 - `options` `<ServicePoolOptions>`
