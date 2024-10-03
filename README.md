@@ -12,8 +12,8 @@ A *Network-Services* app can be explained with a complete and simple example.  I
 - Type-safe APIs: *code completion*, *parameter types*, and *return types*.
 - Easily scale your Service App using a [Service Pool](#scaling).
 - Return values *and* Errors are [marshalled](#marshalling) back to the caller.
-- Infinite [property nesting](#use-network-services-to-create-an-api-with-a-nested-method-example); you can use a Service API to call *nested* properties on a Service App at any depth.
-- [Bi-directional](#use-network-services-to-create-bi-directional-type-safe-apis-example) asynchronous RPC over TCP.
+- Infinite [property nesting](#use-network-services-to-create-an-api-with-a-nested-method-typescript); you can use a Service API to call *nested* properties on a Service App at any depth.
+- [Bi-directional](#use-network-services-to-create-bi-directional-type-safe-apis-typescript) asynchronous RPC over TCP.
 - [Security](#security) can be implemented using the native Node [TLS module](https://nodejs.org/docs/latest-v20.x/api/tls.html) (i.e., TLS and Client Certificate Authentication).
 - A configurable [message protocol](#message-protocol). You can marshal your messages however you choose (e.g., JSON, binary, etc.), or use the default *minimalist* JSON message protocol.
 - [Extend](#extend-network-services) *Network-Services* using the native `stream.Duplex` interface.
@@ -125,7 +125,7 @@ socket.on('ready', async () => {
 ```
 Please see the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example for a working implementation.  For a scalable implementation, please see the [Scalable "Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/scalable_hello_world) example.
 
-> In the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example communication is uni-directional (i.e., it supports request-response messaging).  Please see the [Bi-directional Type Safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-example) example for how to implement bi-directional communication.
+> In the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example communication is uni-directional (i.e., it supports request-response messaging).  Please see the [Bi-directional Type Safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-typescript) example for how to implement bi-directional communication.
 
 ## Examples
 
@@ -166,7 +166,7 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
     - `identifierGenerator` `<IdentifierGenerator>` An optional instance of a class that implements the `network-services.IdentifierGenerator` interface.  This class instance will be used in order to generate a unique identifier for each API call.  The default `network-services.NumericIdentifierGenerator` will work for the common case; however, a more robust solution may be required for certain custom implementations. **Default:** `network-services.NumericIdentifierGenerator`
 - Returns: `<Async<T>>` A type cast `Proxy` object of type `<Async<T>>` that consists of asynchronous analogues of methods in `<T>`.
 
-> The `service.createServiceAPI<T>` helper function returns a JavaScript `Proxy` object cast to type `<Async<T>>`.  `service.createServiceAPI<T>` filters and transforms the function types that comprise `<T>` into their asynchronous analogues i.e., if a function type isn't already defined as returning a `Promise`, it will be transformed to return a `Promise` - otherwise its return type will be left unchanged.  This transformation is necessary because all function calls over a `stream.Duplex` (e.g., a `net.Socket`) are asynchronous.  Please see the [Bi-directional Type Safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-example) example for how to easily consume a `<Async<T>>` in your application.
+> The `service.createServiceAPI<T>` helper function returns a JavaScript `Proxy` object cast to type `<Async<T>>`.  `service.createServiceAPI<T>` filters and transforms the function types that comprise `<T>` into their asynchronous analogues i.e., if a function type isn't already defined as returning a `Promise`, it will be transformed to return a `Promise` - otherwise its return type will be left unchanged.  This transformation is necessary because all function calls over a `stream.Duplex` (e.g., a `net.Socket`) are asynchronous.  Please see the [Bi-directional Type Safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-typescript) example for how to easily consume a `<Async<T>>` in your application.
 
 #### The following Errors may arise when a Service API method is called:
 - Errors:
@@ -198,7 +198,7 @@ A `PortStream` defaults to wrapping the `parentPort` of the Worker thread into a
 ## Type Safety
 *Network-Services* provides a facility for building a type safe network API.  The type safe API facility is realized through use of JavaScript's Proxy object and TypeScript's type variables. A Proxy interface is created by passing your app's public interface to the type parameter of the `service.createServiceAPI<T>` helper function.  The type safe Proxy interface facilitates *code completion*, *parameter types*, and *return types*; it helps safeguard the integrity of your API.  
 
-Please see the [Bi-directional Type Safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-example) example for a working implementation.
+Please see the [Bi-directional Type Safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-typescript) example for a working implementation.
 
 ## Extend *Network-Services*
 *Network-Services* is modeled around communication over `net.Sockets`; however, it can be used in order to communicate over any resource that implements the `stream.Duplex` interface.  This means that if you can model your bi-directional resource as a `stream.Duplex`, it should work with *Network-Services*.  The `createService` helper function takes a `stream.Duplex` as its first argument.  Just implement a [stream.Duplex](https://nodejs.org/api/stream.html#implementing-a-duplex-stream) around your resource and pass it into the `createService` helper function.
