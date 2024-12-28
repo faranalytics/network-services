@@ -1,0 +1,1 @@
+{"root":["./src/buffer_mux.ts","./src/errors.ts","./src/identifier_generator.ts","./src/index.ts","./src/messages.ts","./src/mux.ts","./src/object_mux.ts","./src/port_stream.ts","./src/service.ts","./src/service_api.ts","./src/service_app.ts","./src/service_pool.ts","./src/types.ts"],"version":"5.7.2"}
