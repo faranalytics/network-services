@@ -153,18 +153,15 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
 
 Returns: `<Service>`
 
-### The ServiceApp Class
-
-#### service.createServiceApp\<T\>(app, options)
+_public_ **service.createServiceApp\<T\>(app, options)**
 
 - `app` `<object>` An instance of your application.
 - `options` `<ServiceAppOptions<T>>`
   - `paths` `<Array<PropPath<Async<T>>>>` An `Array` of _property paths_ (i.e., dot-path `string`s). _If defined_, only property paths in this list may be called on the Service App. Each element of the array is a `PropPath` and a `PropPath` is simply a dot-path `string` representation of a property path. Please see the [Nested Method](https://github.com/faranalytics/network-services/tree/main/examples/nested_method) example for a working implementation. **Default:** `undefined`.
-- Returns: `<ServiceApp<T>>`
 
-### The ServiceAPI Class
+Returns: `<ServiceApp<T>>`
 
-#### service.createServiceAPI\<T\>(options)
+_public_ **service.createServiceAPI\<T\>(options)**
 
 - `options` `<ServiceAPIOptions>`
   - `timeout` `<number>` Optional argument in milliseconds that specifies the `timeout` for function calls. **Default:** `undefined` (i.e., no timeout).
