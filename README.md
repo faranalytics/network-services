@@ -161,7 +161,8 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
   - `ingressQueueSizeLimit` `<number>` An optional ingress buffer size limit in bytes. This argument specifies the limit on buffered data that may accumulate from calls _from_ the remote Service API and return values _from_ the remote Service App. If the size of the ingress buffer exceeds this value, the stream will emit a `QueueSizeLimitError` and close. **Default:** `undefined` (i.e., no limit).
   - `egressQueueSizeLimit` `<number>` An optional egress buffer size limit in bytes. This argument specifies the limit on buffered data that may accumulate from calls _to_ the remote Service App and return values _to_ the remote Service API. If the size of the egress buffer exceeds this value, a `QueueSizeLimitError` will be thrown and the stream will close. **Default:** `undefined` (i.e., no limit).
   - `muxClass` `<MuxConstructor>` An optional `Mux` implementation. Messages are muxed as they enter and leave the `stream.Duplex`. You can use one of the default muxers or provide a custom implementation. For example, you can extend the default `network-services.BufferMux` and override the `serializeMessage` and `deserializeMessage` methods in order to implement a custom [message protocol](#message-protocol) (e.g., a binary message protocol). If a custom `Mux` implementation is not provided here, _Network-Services_ will provide a default `Mux` implementation compatible with the underlying `stream.Duplex`. Default muxers respect back-pressure. **Default:** a `BufferMux` or an `ObjectMux` for streams in object mode.
-- Returns: `<Service>`
+
+Returns: `<Service>`
 
 ### The ServiceApp Class
 
@@ -179,20 +180,22 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
 - `options` `<ServiceAPIOptions>`
   - `timeout` `<number>` Optional argument in milliseconds that specifies the `timeout` for function calls. **Default:** `undefined` (i.e., no timeout).
   - `identifierGenerator` `<IdentifierGenerator>` An optional instance of a class that implements the `network-services.IdentifierGenerator` interface. This class instance will be used in order to generate a unique identifier for each API call. The default `network-services.NumericIdentifierGenerator` will work for the common case; however, a more robust solution may be required for certain custom implementations. **Default:** `network-services.NumericIdentifierGenerator`
-- Returns: `<Async<T>>` A type cast `Proxy` object of type `<Async<T>>` that consists of asynchronous analogues of methods in `<T>`.
+
+Returns: `<Async<T>>` A type cast `Proxy` object of type `<Async<T>>` that consists of asynchronous analogues of methods in `<T>`.
 
 > The `service.createServiceAPI<T>` helper function returns a JavaScript `Proxy` object cast to type `<Async<T>>`. `service.createServiceAPI<T>` filters and transforms the function types that comprise `<T>` into their asynchronous analogues i.e., if a function type isn't already defined as returning a `Promise`, it will be transformed to return a `Promise` - otherwise its return type will be left unchanged. This transformation is necessary because all function calls over a `stream.Duplex` (e.g., a `net.Socket`) are asynchronous. Please see the [Bi-directional Type-safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-typescript) example for how to easily consume a `<Async<T>>` in your application.
 
 ##### The following Errors may arise when a Service API method is called:
 
-- Errors:
-  - If the remote Service App method throws an `Error`, the `Error` will be marshalled back from the Service and the `Promise` will reject with the `Error` as its reason.
-  - If a call exceeds the `egressQueueSizeLimit`, the `Promise` will reject with `QueueSizeLimitError` as its reason and the stream will close.
-  - If an `error` event occurs on the `stream.Duplex`, the `Promise` will reject with the given reason.
-  - If the `stream.Duplex` closes, the `Promise` will reject with `StreamClosedError` as its reason.
-  - If the `paths` array is defined in the remote `ServiceAppOptions<T>` and a method is called that is not a registered property path, the `Promise` will reject with `PropertyPathError` as its reason.
-  - If a property is invoked that is not a function on the remote Service App, the `Promise` will reject with `TypeError` as its reason.
-  - If the call fails to resolve or reject prior to the `timeout` specified in `ServiceAPIOptions`, the `Promise` will reject with `CallTimeoutError` as its reason.
+Errors:
+
+- If the remote Service App method throws an `Error`, the `Error` will be marshalled back from the Service and the `Promise` will reject with the `Error` as its reason.
+- If a call exceeds the `egressQueueSizeLimit`, the `Promise` will reject with `QueueSizeLimitError` as its reason and the stream will close.
+- If an `error` event occurs on the `stream.Duplex`, the `Promise` will reject with the given reason.
+- If the `stream.Duplex` closes, the `Promise` will reject with `StreamClosedError` as its reason.
+- If the `paths` array is defined in the remote `ServiceAppOptions<T>` and a method is called that is not a registered property path, the `Promise` will reject with `PropertyPathError` as its reason.
+- If a property is invoked that is not a function on the remote Service App, the `Promise` will reject with `TypeError` as its reason.
+- If the call fails to resolve or reject prior to the `timeout` specified in `ServiceAPIOptions`, the `Promise` will reject with `CallTimeoutError` as its reason.
 
 > **NB** The Service API and type safety is not enforced at runtime. Please see the `paths` property of the `ServiceAppOptions<T>` object for runtime checks.
 
@@ -205,7 +208,8 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
   - `workerURL` `<string | URL>` The URL or path to the `.js` module file. This is the module that will be scaled according to the value specified for `workerCount`.
   - `restartWorkerOnError` `<boolean>` A boolean setting specifying if Workers should be restarted on `error`. **Default**: `false`
   - `workerOptions` `<worker_threads.WorkerOptions>` Optional `worker_threads.WorkerOptions` to be passed to each Worker instance.
-- Returns: `<ServicePool>`
+
+Returns: `<ServicePool>`
 
 ### The PortStream Class
 
@@ -213,7 +217,8 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
 
 - `port` `<worker_threads.MessagePort | worker_threads.Worker>` An optional `MessagePort` to be wrapped by a `stream.Duplex`. **Default**: `worker_threads.parentPort`
 - `options` `<internal.DuplexOptions>` An optional `internal.DuplexOptions` object to be passed to the `PortStream` parent class.
-- Returns: `<PortStream>`
+
+Returns: `<PortStream>`
 
 A `PortStream` defaults to wrapping the `parentPort` of the Worker thread into a `stream.Duplex`. Hence, a `PortStream` _is a_ `stream.Duplex`, so it can be passed to the _Network-Services_ `createService` helper function. This is the stream adapter that is used in the Worker modules that comprise a Service Pool.
 
