@@ -78,8 +78,6 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
 
 ## Usage
 
-### Create a "Hello, World!" Greeter Service.
-
 Using _Network-Services_ involves creating a Service App and calling its methods over a stream (e.g., a `net.Socket`) using a Service API. In this example you will create a `Greeter` Service and call its `greeter.greet` method over a `net.Socket` using an asynchronous Service API of type `Greeter`.
 
 ### Instructions
@@ -339,6 +337,20 @@ The Service API and type safety are not enforced at runtime. You can restrict AP
 _Network-Services_ respects backpressure; however, it is advisable to specify how much data may be buffered in order to ensure your _application_ can respond to adverse network phenomena. If the stream peer reads data at a rate that is slower than the rate that data is written to the stream, data may buffer until memory is exhausted. This is a [vulnerability](https://nodejs.org/api/stream.html#writablewritechunk-encoding-callback) that is inherent in streams, which can be mitigated by preventing internal buffers from growing too large.
 
 You can specify a hard limit on ingress and egress buffers in the Service `options`. `ingressQueueSizeLimit` specifies a limit on incoming data i.e., data returned _from_ the remote Service App or calls _from_ the remote Service API. `egressQueueSizeLimit` specifies a limit on outgoing data i.e., data returned _to_ the remote Service API or calls _to_ the remote Service App. If an ingress or egress buffer exceeds the specified limit, _the respective stream will error and close_. _Network-Services_ will immediately tear down its internal buffers in order to free memory - [dereference the stream](#close-and-dereference-streams-in-order-to-prevent-memory-leaks), and GC will sweep.
+
+## Versioning
+
+The _Network-Services_ package adheres to semantic versioning. Breaking changes to the public API will result in a turn of the major. Minor and patch changes will always be backward compatible.
+
+Excerpted from [Semantic Versioning 2.0.0](https://semver.org/):
+
+> Given a version number MAJOR.MINOR.PATCH, increment the:
+>
+> 1. MAJOR version when you make incompatible API changes
+> 2. MINOR version when you add functionality in a backward compatible manner
+> 3. PATCH version when you make backward compatible bug fixes
+>
+> Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 
 ## Test
 
