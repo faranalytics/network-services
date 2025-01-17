@@ -1,127 +1,148 @@
-# *Use Network-Services with TLS Encryption and Client Certificate Authentication.*
+# _Use Network-Services with TLS Encryption and Client Certificate Authentication._
+
+## Introduction
 
 In this hypothetical example you will use Network-Services in order to create two Service Apps connected by a Socket that is secured using TLS Encryption and Client Certificate Authentication.
 
 ## Implementation
-You will create two Service Apps, `ServiceA` and `ServiceB`.  Each Service App has a setter named `setSecret`.  `ServiceA` will set a secret on `ServiceB` and `ServiceB` will set a secret on `ServiceA`.  When a secret is set on an object it will be logged to the console.
 
-### Create two Service Apps, a `ServiceA` and a `ServiceB`, that will share their secrets.
-#### Import the `node:fs` and `node:tls` modules and `Async` Proxy type, and the `createService` helper functions.
+You will create two Service Apps, `ServiceA` and `ServiceB`. Each Service App has a setter named `setSecret`. `ServiceA` will set a secret on `ServiceB` and `ServiceB` will set a secret on `ServiceA`. When a secret is set on an object it will be logged to the console.
+
+### Instructions
+
+Create two Service Apps, a `ServiceA` and a `ServiceB`, that will share their secrets. Import the `node:fs` and `node:tls` modules and `Async` Proxy type, and the `createService` helper functions.
+
 ```ts
 import * as tls from "node:tls";
 import * as fs from "node:fs";
-import { Async, createService } from 'network-services';
+import { Async, createService } from "network-services";
 ```
-#### Define `ServiceA` and its interface.
+
+Define `ServiceA` and its interface.
+
 ```ts
 interface IServiceA {
-    setSecret: (secret: number) => void;
+  setSecret: (secret: number) => void;
 }
 
 class ServiceA implements IServiceA {
+  private serviceB: Async<IServiceB>;
+  private secret: number;
 
-    private serviceB: Async<IServiceB>;
-    private secret: number;
+  constructor(serviceB: Async<IServiceB>, secret: number) {
+    this.serviceB = serviceB;
+    this.secret = secret;
+    this.serviceB.setSecret(secret).catch(console.error);
+  }
 
-    constructor(serviceB: Async<IServiceB>, secret:number) {
-        this.serviceB = serviceB;
-        this.secret = secret;
-        this.serviceB.setSecret(secret).catch(console.error);
-    }
-
-    public setSecret(secret: number): void {
-        this.secret = secret;
-        console.log(this.secret);
-    }
+  public setSecret(secret: number): void {
+    this.secret = secret;
+    console.log(this.secret);
+  }
 }
 ```
-#### Create a Server and use its `net.Socket` to create a Service.  Use the Service in order to create a `ServiceB` Service API and a `ServiceA` Service App.
-```ts
-const server = tls.createServer({
-    key: fs.readFileSync('./secrets/serviceA_key.pem'),
-    cert: fs.readFileSync('./secrets/serviceA_cert.pem'),
-    ca: [fs.readFileSync('./secrets/serviceB_cert.pem')],
-    requestCert: true
-}).listen({ port: 3000, host: 'localhost' });
 
-server.on('secureConnection', (socket: tls.TLSSocket) => {
-    socket.on('error', console.error);
-    const service = createService(socket);
-    const serviceB = service.createServiceAPI<IServiceB>();
-    const serviceA = new ServiceA(serviceB, 23);
-    service.createServiceApp<IServiceA>(serviceA, { paths: ['setSecret'] });
+Create a Server and use its `net.Socket` to create a Service. Use the Service in order to create a `ServiceB` Service API and a `ServiceA` Service App.
+
+```ts
+const server = tls
+  .createServer({
+    key: fs.readFileSync("./secrets/serviceA_key.pem"),
+    cert: fs.readFileSync("./secrets/serviceA_cert.pem"),
+    ca: [fs.readFileSync("./secrets/serviceB_cert.pem")],
+    requestCert: true,
+  })
+  .listen({ port: 3000, host: "localhost" });
+
+server.on("secureConnection", (socket: tls.TLSSocket) => {
+  socket.on("error", console.error);
+  const service = createService(socket);
+  const serviceB = service.createServiceAPI<IServiceB>();
+  const serviceA = new ServiceA(serviceB, 23);
+  service.createServiceApp<IServiceA>(serviceA, { paths: ["setSecret"] });
 });
 ```
 
-#### Define `ServiceB` and its interface.
+Define `ServiceB` and its interface.
+
 ```ts
 interface IServiceB {
-    setSecret(secret: number): void;
+  setSecret(secret: number): void;
 }
 
 class ServiceB implements IServiceB {
+  private serviceA: Async<IServiceA>;
+  private secret: number;
 
-    private serviceA: Async<IServiceA>;
-    private secret: number;
+  constructor(serviceA: Async<IServiceA>, secret: number) {
+    this.serviceA = serviceA;
+    this.secret = secret;
+    this.serviceA.setSecret(this.secret).catch(console.error);
+  }
 
-    constructor(serviceA: Async<IServiceA>, secret: number) {
-        this.serviceA = serviceA;
-        this.secret = secret;
-        this.serviceA.setSecret(this.secret).catch(console.error);
-    }
-
-    public setSecret(secret:number): void {
-        this.secret = secret;
-        console.log(this.secret);
-    }
+  public setSecret(secret: number): void {
+    this.secret = secret;
+    console.log(this.secret);
+  }
 }
 ```
-#### Create a `net.Socket` and use it to create a Service.  Use the Service in order to create a `ServiceA` Service API and a `ServiceB` Service App.
+
+Create a `net.Socket` and use it to create a Service. Use the Service in order to create a `ServiceA` Service API and a `ServiceB` Service App.
+
 ```ts
 const socket = tls.connect({
-    port: 3000,
-    host: 'localhost',
-    key: fs.readFileSync('./secrets/serviceB_key.pem'),
-    cert: fs.readFileSync('./secrets/serviceB_cert.pem'),
-    ca: [fs.readFileSync('./secrets/serviceA_cert.pem')]
+  port: 3000,
+  host: "localhost",
+  key: fs.readFileSync("./secrets/serviceB_key.pem"),
+  cert: fs.readFileSync("./secrets/serviceB_cert.pem"),
+  ca: [fs.readFileSync("./secrets/serviceA_cert.pem")],
 });
-socket.on('error', console.error);
-socket.on('ready', () => {
-    try {
-        const service = createService(socket);
-        const serviceA = service.createServiceAPI<IServiceA>();
-        const serviceB = new ServiceB(serviceA, 42);
-        service.createServiceApp<IServiceB>(serviceB, { paths: ['setSecret'] });
-    }
-    catch (err) {
-        console.error(err);
-    }
+socket.on("error", console.error);
+socket.on("ready", () => {
+  try {
+    const service = createService(socket);
+    const serviceA = service.createServiceAPI<IServiceA>();
+    const serviceB = new ServiceB(serviceA, 42);
+    service.createServiceApp<IServiceB>(serviceB, { paths: ["setSecret"] });
+  } catch (err) {
+    console.error(err);
+  }
 });
 ```
-## Requirements
+
+## Run the Example
+
+### Requirements
+
 Please make sure your firewall is configured to allow connections on `localhost:3000` for this example to work.
 
-## Instructions
+### Instructions
 
-Follow the instructions to run the example.
+Clone the Network-Services repo.
 
-### Clone the Network-Services repo.
 ```bash
 git clone https://github.com/faranalytics/network-services.git
 ```
-### Change directory into the relevant example directory.
+
+Change directory into the relevant example directory.
+
 ```bash
 cd network-services/examples/tls_encryption_and_client_auth
 ```
-### Make a directory for keys.
+
+Make a directory for keys.
+
 ```bash
 mkdir secrets
 ```
-### Create a private key and certificate for the Service.
+
+Create a private key and certificate for the Service.
+
 ```bash
 openssl genrsa -out ./secrets/serviceA_key.pem 2048
 openssl req -new -x509 -key ./secrets/serviceA_key.pem -out ./secrets/serviceA_cert.pem
 ```
+
 ```bash
 Country Name (2 letter code) [AU]:
 State or Province Name (full name) [Some-State]:
@@ -131,11 +152,14 @@ Organizational Unit Name (eg, section) []:
 Common Name (e.g. server FQDN or YOUR name) []:localhost
 Email Address []:
 ```
-### Create a private key and certificate for the Client.
+
+Create a private key and certificate for the Client.
+
 ```bash
 openssl genrsa -out ./secrets/serviceB_key.pem 2048
 openssl req -new -x509 -key ./secrets/serviceB_key.pem -out ./secrets/serviceB_cert.pem
 ```
+
 ```bash
 Country Name (2 letter code) [AU]:
 State or Province Name (full name) [Some-State]:
@@ -145,19 +169,27 @@ Organizational Unit Name (eg, section) []:
 Common Name (e.g. server FQDN or YOUR name) []:localhost
 Email Address []:
 ```
-### Install the example dependencies.
+
+Install the example dependencies.
+
 ```bash
 npm install && npm update
 ```
-### Build the application.
+
+Build the application.
+
 ```bash
 npm run clean:build
 ```
-### Run the application.
+
+Run the application.
+
 ```bash
 npm start
 ```
-#### Output
+
+Output
+
 ```bash
 42
 23
