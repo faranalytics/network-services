@@ -30,7 +30,7 @@ A _Network-Services_ app can be explained with a complete and simple example. In
   - [Service API](#service-api)
   - [Service Pool](#service-pool)
 - [Usage](#usage)
-  - [How to Create a "Hello, World!" Greeter Service.](#how-to-create-a-hello-world-greeter-service)
+  - [Instructions](#instructions)
 - [Examples](#examples)
   - [_An instance of "Hello, World!"_](#an-instance-of-hello-world-typescript)
   - [_Use Network-Services to Create Bi-directional Type-safe APIs_](#use-network-services-to-create-bi-directional-type-safe-apis-typescript)
@@ -38,6 +38,10 @@ A _Network-Services_ app can be explained with a complete and simple example. In
   - [_Use Network-Services to Create an API with a Nested Method_](#use-network-services-to-create-an-api-with-a-nested-method-typescript)
   - [_Use Network-Services to Scale a "Hello, World!" Greeter Service Using a Service Pool_](#use-network-services-to-scale-a-hello-world-greeter-service-using-a-service-pool-typescript)
 - [API](#api)
+  - [The Service Class](#the-service-class)
+  - [The ServiceApp Class](#the-serviceapp-class)
+  - [The ServiceAPI Class](#the-serviceapi-class)
+  - [The ServicePool Class](#the-servicepool-class)
 - [Type Safety](#type-safety)
 - [Extend _Network-Services_](#extend-network-services)
 - [Scaling](#scaling)
@@ -46,6 +50,7 @@ A _Network-Services_ app can be explained with a complete and simple example. In
 - [Best Practices](#best-practices)
   - [General](#general)
   - [Security](#security)
+- [Versioning](#versioning)
 - [Test](#test)
 
 ## Installation
