@@ -42,6 +42,7 @@ A _Network-Services_ app can be explained with a complete and simple example. In
   - [The ServiceApp Class](#the-serviceapp-class)
   - [The ServiceAPI Class](#the-serviceapi-class)
   - [The ServicePool Class](#the-servicepool-class)
+  - [The PortStream Class](#the-portstream-class)
 - [Type Safety](#type-safety)
 - [Extend _Network-Services_](#extend-network-services)
 - [Scaling](#scaling)
