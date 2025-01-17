@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.8] - 2025-01-17
+### Changed
+- Improve documentation.
+- Improve examples.
+
 ## [1.1.7] - 2024-10-02
 ### Changed
 - Improve documentation.
