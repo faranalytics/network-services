@@ -35,6 +35,7 @@ A _Network-Services_ app can be explained with a complete and simple example. In
 - [Best Practices](#best-practices)
 - [Versioning](#versioning)
 - [Test](#test)
+- [Support](#support)
 
 ## Installation
 
