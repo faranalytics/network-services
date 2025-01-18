@@ -122,7 +122,7 @@ socket.on("ready", () => {
 
 ### How to run the example
 
-#### Clone the Network-Services repo.
+#### Clone the Network-Services repository.
 
 ```bash
 git clone https://github.com/faranalytics/network-services.git

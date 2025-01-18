@@ -77,7 +77,7 @@ socket.on("ready", async () => {
 
 ### Instructions
 
-#### Clone the Network-Services repo.
+#### Clone the Network-Services repository.
 
 ```bash
 git clone https://github.com/faranalytics/network-services.git
