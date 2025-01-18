@@ -105,7 +105,7 @@ class DataProvider implements IDataProvider {
 }
 ```
 
-#### Create a `net.Socket` and use it to create a Service. 
+#### Create a `net.Socket` and use it to create a Service.
 
 Use Service in order to create a `DataStore` Service API and a `DataProvider` Service App and start the `DataProvider`.
 
@@ -128,7 +128,7 @@ socket.on("ready", async () => {
 
 ### Requirements
 
-- The `tls.Server` will attempt to bind to `localhost:3000`.
+- The `net.Server` will attempt to bind to `localhost:3000`.
 
 ### How to run the example
 

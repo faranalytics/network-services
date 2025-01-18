@@ -4,9 +4,9 @@
 
 In this example you will create two modules: A module named `service.ts` that will contain your scaled `Greeter` Service. A module named `index.ts` that will spawn 10 instances of the `service.ts` module using a Service Pool. You will create 10 connections to the remote Server and connect each `net.Socket` to the Service Pool. You will use the Service API to call the `greeter.greet` method over each connection. Each call will be handled round-robin by the Service in each Worker thread.
 
-## Implementation
+## Implement the example
 
-### Instructions
+### Implement the `index.ts` module
 
 #### Create an `index.ts` module and import the required dependencies.
 
@@ -39,7 +39,9 @@ server.on("connection", (socket: net.Socket) => {
 });
 ```
 
-#### Create 10 connections to the Server, and on each iteration, create a Service API, call its `greeter.greet` method, and log the result to the console.
+#### Create successive connections to the `net.Server`.
+
+You will create 10 connections to the Server, and on each iteration, create a Service API, call its `greeter.greet` method, and log the result to the console.
 
 ```ts
 for (let i = 0; i < 10; i++) {
@@ -57,13 +59,15 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-#### Create the scaled `service.ts` module and import the required dependencies.
+### Implement the `service.ts` module
+
+#### Import the required dependencies.
 
 ```ts
 import { createPortStream, createService } from "network-services";
 ```
 
-Create an instance of a `Greeter`.
+#### Create an instance of a `Greeter`.
 
 ```ts
 export class Greeter {
@@ -83,13 +87,13 @@ const service = createService(portStream); // Create a Service.
 service.createServiceApp(greeter); // Create a Service App.
 ```
 
-## Run the Example
+## Run the example
 
 ### Requirements
 
-Please make sure your firewall is configured to allow connections on `127.0.0.1:3000` for this example to work.
+- The `net.Server` will attempt to bind to `localhost:3000`.
 
-### Instructions
+### How to run the example
 
 #### Clone the Network-Services repo.
 

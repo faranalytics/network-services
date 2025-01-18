@@ -4,9 +4,9 @@
 
 In this example you will use Network-Services in order to create a "Hello, World!" `Greeter` Service App and call its `greeter.greet` method and log the returned greeting.
 
-## Implementation
+## Implement the example
 
-### Instructions
+### Implement `index.ts`
 
 #### Import the `node:net` module and the `createService` helper functions.
 
@@ -54,13 +54,13 @@ socket.on("ready", async () => {
 });
 ```
 
-## Run the Example
+## Run the example
 
 ### Requirements
 
-Please make sure your firewall is configured to allow connections on `127.0.0.1:3000` for this example to work.
+- The `net.Server` will attempt to bind to `localhost:3000`.
 
-### Instructions
+### How to run the example
 
 #### Clone the Network-Services repo.
 

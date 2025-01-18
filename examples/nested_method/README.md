@@ -2,9 +2,9 @@
 
 As in the Hello World example, in this example you will use Network-Services in order to create a Hello World `Greeter` Service; however, this `Greeter` _is a_ `TruthSayer` who _has a_ `secret`. You will drill into the `Greeter` object and call its `Greeter.secret.tell` method and log the returned secret.
 
-## Implementation
+## Implement the example
 
-### How to create a Hello World Greeter Service App with a nested method.
+### Implement `index.ts`
 
 #### Import the `node:net` module and the `createService` helper functions.
 
@@ -69,11 +69,11 @@ socket.on("ready", async () => {
 });
 ```
 
-## Run the Example
+## Run the example
 
 ### Requirements
 
-Please make sure your firewall is configured to allow connections on `127.0.0.1:3000` for this example to work.
+- The `net.Server` will attempt to bind to `localhost:3000`.
 
 ### Instructions
 
