@@ -21,7 +21,7 @@ export class Service {
 
     constructor(stream: stream.Duplex, options?: ServiceOptions & MuxOptions) {
         if (Service.streams.has(stream)) {
-            throw new InstantiationError("The stream.Duplex instance has already been associated with a Service.");
+            throw new InstantiationError('The stream.Duplex instance has already been associated with a Service.');
         }
         else {
             Service.streams.add(stream);
@@ -33,11 +33,11 @@ export class Service {
         else if (stream.writableObjectMode && stream.readableObjectMode) {
             this.mux = new ObjectMux(stream, options);
         }
-        else if (!stream.writableObjectMode && !stream.readableObjectMode){
+        else if (!stream.writableObjectMode && !stream.readableObjectMode) {
             this.mux = new BufferMux(stream, options);
         }
         else {
-            throw new NotImplementedError("Unsupported stream.");
+            throw new NotImplementedError('Unsupported stream.');
         }
     }
 
@@ -47,7 +47,7 @@ export class Service {
             return serviceApp;
         }
         else {
-            throw new InstantiationError("A ServiceApp instance has already been instantiated for this Service.");
+            throw new InstantiationError('A ServiceApp instance has already been instantiated for this Service.');
         }
     }
 
@@ -86,7 +86,7 @@ export class Service {
             });
         }
         else {
-            throw new InstantiationError("A ServiceAPI instance has already been instantiated for this Service.");
+            throw new InstantiationError('A ServiceAPI instance has already been instantiated for this Service.');
         }
     }
 }

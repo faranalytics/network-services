@@ -1,6 +1,6 @@
-import * as worker_threads from "node:worker_threads";
-import * as stream from "node:stream";
-import { CallMessage, ResultMessage } from "./messages";
+import * as worker_threads from 'node:worker_threads';
+import * as stream from 'node:stream';
+import { CallMessage, ResultMessage } from './messages';
 
 const $data = Symbol('data');
 

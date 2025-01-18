@@ -1,5 +1,5 @@
 import * as stream from 'stream';
-import { CallMessage, ResultMessage } from "./messages";
+import { CallMessage, ResultMessage } from './messages';
 import { QueueSizeLimitError, NotImplementedError } from './errors';
 import { Mux, MuxOptions } from './mux';
 

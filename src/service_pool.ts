@@ -1,12 +1,12 @@
-import * as threads from "node:worker_threads";
-import * as stream from "node:stream";
-import * as crypto from "node:crypto";
-import * as events from "node:events";
-import { CallMessage, ResultMessage } from "./messages";
-import { Mux } from "./mux";
-import { ObjectMux } from "./object_mux";
-import { BufferMux } from "./buffer_mux";
-import { NotImplementedError } from "./errors";
+import * as threads from 'node:worker_threads';
+import * as stream from 'node:stream';
+import * as crypto from 'node:crypto';
+import * as events from 'node:events';
+import { CallMessage, ResultMessage } from './messages';
+import { Mux } from './mux';
+import { ObjectMux } from './object_mux';
+import { BufferMux } from './buffer_mux';
+import { NotImplementedError } from './errors';
 
 interface MuxMapOptions {
     mux: Mux;
@@ -68,13 +68,13 @@ export class ServicePool extends events.EventEmitter {
         if (stream.writableObjectMode && stream.readableObjectMode) {
             mux = new ObjectMux(stream);
         }
-        else if (!stream.writableObjectMode && !stream.readableObjectMode){
+        else if (!stream.writableObjectMode && !stream.readableObjectMode) {
             mux = new BufferMux(stream);
         }
         else {
-            throw new NotImplementedError("Unsupported stream.");
+            throw new NotImplementedError('Unsupported stream.');
         }
-        
+
         stream.on('close', () => {
             for (const [uuid, muxMap] of this.callRegistrar.entries()) {
                 if (muxMap.mux === mux) {
@@ -125,7 +125,7 @@ export class ServicePool extends events.EventEmitter {
                 }
             }
             else {
-                throw new NotImplementedError("A call from a Worker thread to an arbitrary remote Service is not implemented.");
+                throw new NotImplementedError('A call from a Worker thread to an arbitrary remote Service is not implemented.');
             }
         }
         catch (err) {

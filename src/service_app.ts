@@ -1,7 +1,7 @@
-import { CallMessage, ResultMessage } from "./messages";
-import { QueueSizeLimitError, PropertyPathError } from "./errors";
-import { Async, Callable, PropPath } from "./types";
-import { Mux } from "./mux";
+import { CallMessage, ResultMessage } from './messages';
+import { QueueSizeLimitError, PropertyPathError } from './errors';
+import { Async, Callable, PropPath } from './types';
+import { Mux } from './mux';
 
 export interface ServiceAppOptions<T extends object> {
     paths?: Array<PropPath<Async<T>>>;
@@ -43,11 +43,11 @@ export class ServiceApp<T extends object> {
                 base = <{ [k: string]: unknown }>base[props[i]];
             }
 
-            if (typeof base[props[props.length-1]] != 'function') {
-                throw new TypeError(`${props[props.length-1]} is not a function`);
+            if (typeof base[props[props.length - 1]] != 'function') {
+                throw new TypeError(`${props[props.length - 1]} is not a function`);
             }
 
-            const result = await (<Callable>base[props[props.length-1]])(...message.args);
+            const result = await (<Callable>base[props[props.length - 1]])(...message.args);
             this.mux.mux(new ResultMessage({ type: 2, id, data: result }));
         }
         catch (err) {

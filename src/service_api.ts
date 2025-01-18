@@ -1,7 +1,7 @@
-import { CallMessage, ResultMessage } from "./messages";
-import { StreamClosedError, CallTimeoutError } from "./errors";
-import { IdentifierGenerator, NumericIdentifierGenerator } from "./identifier_generator";
-import { Mux } from "./mux";
+import { CallMessage, ResultMessage } from './messages';
+import { StreamClosedError, CallTimeoutError } from './errors';
+import { IdentifierGenerator, NumericIdentifierGenerator } from './identifier_generator';
+import { Mux } from './mux';
 
 export interface CallOptions {
     id: string;
@@ -66,7 +66,7 @@ export class ServiceAPI {
                         clearTimeout(call.timeoutId);
                     }
                     this.callRegistrar.delete(key);
-                    call.e(new StreamClosedError("The stream.Duplex closed."));
+                    call.e(new StreamClosedError('The stream.Duplex closed.'));
                 }
             }
             catch (err) {
@@ -120,11 +120,11 @@ export class ServiceAPI {
                     call.r(result);
                 }
                 else {
-                    throw new Error("ResultMessage has neither an Error nor a value.");
+                    throw new Error('ResultMessage has neither an Error nor a value.');
                 }
             }
             else {
-                throw new Error("ResultMessage has an unregistered identifier.");
+                throw new Error('ResultMessage has an unregistered identifier.');
             }
         }
         catch (err) {

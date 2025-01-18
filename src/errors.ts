@@ -1,41 +1,41 @@
 export class CallTimeoutError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "CallTimeoutError";
+    this.name = 'CallTimeoutError';
   }
 }
 
 export class StreamClosedError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "StreamClosedError";
+    this.name = 'StreamClosedError';
   }
 }
 
 export class PropertyPathError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "PropertyPathError";
+    this.name = 'PropertyPathError';
   }
 }
 
 export class NotImplementedError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "NotImplementedError";
+    this.name = 'NotImplementedError';
   }
 }
 
 export class InstantiationError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "InstantiationError";
+    this.name = 'InstantiationError';
   }
 }
 
 export class QueueSizeLimitError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "QueueSizeLimitError";
+    this.name = 'QueueSizeLimitError';
   }
 }

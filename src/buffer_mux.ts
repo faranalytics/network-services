@@ -1,5 +1,5 @@
 import * as stream from 'stream';
-import { CallMessage, CallMessageList, ResultMessage, ResultMessageList } from "./messages";
+import { CallMessage, CallMessageList, ResultMessage, ResultMessageList } from './messages';
 import { QueueSizeLimitError, NotImplementedError } from './errors';
 import { Mux, MuxOptions } from './mux';
 
@@ -120,7 +120,7 @@ export class BufferMux extends Mux {
         }
         else {
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            throw new NotImplementedError("The message type is not implemented.");
+            throw new NotImplementedError('The message type is not implemented.');
         }
     }
 
