@@ -78,7 +78,7 @@ import * as net from "node:net";
 import { createService } from "network-services";
 ```
 
-Create a Greeter Application.
+#### Create a Greeter Application.
 
 ```ts
 class Greeter {
@@ -99,7 +99,7 @@ server.on("connection", (socket: net.Socket) => {
 });
 ```
 
-#### Connect to the Server and create a Service API of type `Greeter`. 
+#### Connect to the Server and create a Service API of type `Greeter`.
 
 You will use the `greeter` Service API in order to call the remote Service App's methods and log the greeting.
 
@@ -117,7 +117,7 @@ socket.on("ready", async () => {
 
 Please see the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example for a working implementation. For a scalable implementation, please see the [Scalable "Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/scalable_hello_world) example.
 
-> In the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example communication is uni-directional (i.e., it supports request-response messaging). Please see the [Bi-directional Type-safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-typescript) example for how to implement bi-directional communication.
+> In the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example communication is uni-directional (i.e., it supports request-response messaging). However, _Network-Services_ also supports bi-directional communication over the same socket. Please see the [Bi-directional Type-safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-typescript) example for how to implement bi-directional communication.
 
 ## Examples
 
@@ -173,9 +173,9 @@ Returns: `<Async<T>>` A type cast `Proxy` object of type `<Async<T>>` that consi
 
 > The `service.createServiceAPI<T>` helper function returns a JavaScript `Proxy` object cast to type `<Async<T>>`. `service.createServiceAPI<T>` filters and transforms the function types that comprise `<T>` into their asynchronous analogues i.e., if a function type isn't already defined as returning a `Promise`, it will be transformed to return a `Promise` - otherwise its return type will be left unchanged. This transformation is necessary because all function calls over a `stream.Duplex` (e.g., a `net.Socket`) are asynchronous. Please see the [Bi-directional Type-safe APIs](#use-network-services-to-create-bi-directional-type-safe-apis-typescript) example for how to easily consume a `<Async<T>>` in your application.
 
-##### The following Errors may arise when a Service API method is called:
-
 Errors:
+
+The following Errors may arise when a Service API method is called.
 
 - If the remote Service App method throws an `Error`, the `Error` will be marshalled back from the Service and the `Promise` will reject with the `Error` as its reason.
 - If a call exceeds the `egressQueueSizeLimit`, the `Promise` will reject with `QueueSizeLimitError` as its reason and the stream will close.
