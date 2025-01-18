@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.10] - 2025-01-18
+### Changed
+- Improve documentation.
+
+## [1.1.9] - 2025-01-17
+### Changed
+- Improve documentation.
+
 ## [1.1.9] - 2025-01-17
 ### Changed
 - Improve documentation.
