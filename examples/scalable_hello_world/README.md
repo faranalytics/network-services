@@ -8,9 +8,7 @@ In this example you will create two modules: A module named `service.ts` that wi
 
 ### Instructions
 
-#### Create an `index.ts` module.
-
-Import the required dependencies.
+#### Create an `index.ts` module and import the required dependencies.
 
 ```ts
 import * as net from "node:net";
@@ -18,7 +16,7 @@ import { createService, createServicePool } from "network-services";
 import { Greeter } from "./service.js"; // Import the `Greeter` type from the scaled module.
 ```
 
-Create a pool of 10 instances of the scaled module `service.js` and wait for the Workers to come online.
+#### Create a pool of 10 instances of the scaled module `service.js` and wait for the Workers to come online.
 
 ```ts
 const servicePool = createServicePool({
@@ -30,7 +28,7 @@ const servicePool = createServicePool({
 await new Promise((r) => servicePool.on("ready", r)); // Wait for the pool to become ready.
 ```
 
-Create a Server that will connect incoming Sockets to the Service Pool.
+#### Create a Server that will connect incoming Sockets to the Service Pool.
 
 ```ts
 const server = net.createServer().listen({ port: 3000, host: "127.0.0.1" });
@@ -41,7 +39,7 @@ server.on("connection", (socket: net.Socket) => {
 });
 ```
 
-Create 10 connections to the Server, and on each iteration, create a Service API, call its `greeter.greet` method, and log the result to the console.
+#### Create 10 connections to the Server, and on each iteration, create a Service API, call its `greeter.greet` method, and log the result to the console.
 
 ```ts
 for (let i = 0; i < 10; i++) {
@@ -59,9 +57,7 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-#### Create the scaled `service.ts` module.
-
-Import the required dependencies.
+#### Create the scaled `service.ts` module and import the required dependencies.
 
 ```ts
 import { createPortStream, createService } from "network-services";
@@ -79,7 +75,7 @@ export class Greeter {
 const greeter = new Greeter(); // Create an instance of the Greeter.
 ```
 
-Create a `PortStream` and create a Service App using the `Greeter`.
+#### Create a `PortStream` and create a Service App using the `Greeter`.
 
 ```ts
 const portStream = createPortStream(); // Create a PortStream that will wrap the `parentThread` MessagePort in a stream.Duplex.
@@ -95,37 +91,37 @@ Please make sure your firewall is configured to allow connections on `127.0.0.1:
 
 ### Instructions
 
-Clone the Network-Services repo.
+#### Clone the Network-Services repo.
 
 ```bash
 git clone https://github.com/faranalytics/network-services.git
 ```
 
-Change directory into the relevant example directory.
+#### Change directory into the relevant example directory.
 
 ```bash
 cd network-services/examples/scalable_hello_world
 ```
 
-Install the example dependencies.
+#### Install the example dependencies.
 
 ```bash
 npm install && npm update
 ```
 
-Build the application.
+#### Build the application.
 
 ```bash
 npm run clean:build
 ```
 
-Run the application.
+#### Run the application.
 
 ```bash
 npm start
 ```
 
-Output
+##### Output
 
 ```bash
 Hello, happy world! from thread 3.

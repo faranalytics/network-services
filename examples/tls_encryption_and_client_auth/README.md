@@ -4,13 +4,13 @@
 
 In this hypothetical example you will use Network-Services in order to create two Service Apps connected by a Socket that is secured using TLS Encryption and Client Certificate Authentication.
 
-## Implementation
+## Implement the example
 
 You will create two Service Apps, `ServiceA` and `ServiceB`. Each Service App has a setter named `setSecret`. `ServiceA` will set a secret on `ServiceB` and `ServiceB` will set a secret on `ServiceA`. When a secret is set on an object it will be logged to the console.
 
-### Instructions
+### Implement `index.ts`
 
-Create two Service Apps, a `ServiceA` and a `ServiceB`, that will share their secrets. Import the `node:fs` and `node:tls` modules and `Async` Proxy type, and the `createService` helper functions.
+##### Import the `node:fs` and `node:tls` modules and `Async` Proxy type, and the `createService` helper functions.
 
 ```ts
 import * as tls from "node:tls";
@@ -18,7 +18,7 @@ import * as fs from "node:fs";
 import { Async, createService } from "network-services";
 ```
 
-Define `ServiceA` and its interface.
+##### Define `ServiceA` and its interface.
 
 ```ts
 interface IServiceA {
@@ -42,7 +42,9 @@ class ServiceA implements IServiceA {
 }
 ```
 
-Create a Server and use its `net.Socket` to create a Service. Use the Service in order to create a `ServiceB` Service API and a `ServiceA` Service App.
+#### Create a Server and use its `net.Socket` to create a Service.
+
+You will use the Service in order to create a `ServiceB` Service API instance and a `ServiceA` Service App instance.
 
 ```ts
 const server = tls
@@ -63,7 +65,7 @@ server.on("secureConnection", (socket: tls.TLSSocket) => {
 });
 ```
 
-Define `ServiceB` and its interface.
+#### Define `ServiceB` and its interface.
 
 ```ts
 interface IServiceB {
@@ -87,7 +89,9 @@ class ServiceB implements IServiceB {
 }
 ```
 
-Create a `net.Socket` and use it to create a Service. Use the Service in order to create a `ServiceA` Service API and a `ServiceB` Service App.
+#### Create a `net.Socket` and use it to create a Service.
+
+You will use the Service in order to create a `ServiceA` Service API instance and a `ServiceB` Service App instance.
 
 ```ts
 const socket = tls.connect({
@@ -110,33 +114,33 @@ socket.on("ready", () => {
 });
 ```
 
-## Run the Example
+## Run the example
 
 ### Requirements
 
-Please make sure your firewall is configured to allow connections on `localhost:3000` for this example to work.
+- The `tls.Server` will attempt to bind to `localhost:3000`.
 
-### Instructions
+### How to run the example
 
-Clone the Network-Services repo.
+#### Clone the Network-Services repo.
 
 ```bash
 git clone https://github.com/faranalytics/network-services.git
 ```
 
-Change directory into the relevant example directory.
+#### Change directory into the relevant example directory.
 
 ```bash
 cd network-services/examples/tls_encryption_and_client_auth
 ```
 
-Make a directory for keys.
+#### Make a directory for keys.
 
 ```bash
 mkdir secrets
 ```
 
-Create a private key and certificate for the Service.
+#### Create a private key and certificate for the Service.
 
 ```bash
 openssl genrsa -out ./secrets/serviceA_key.pem 2048
@@ -153,7 +157,7 @@ Common Name (e.g. server FQDN or YOUR name) []:localhost
 Email Address []:
 ```
 
-Create a private key and certificate for the Client.
+#### Create a private key and certificate for the Client.
 
 ```bash
 openssl genrsa -out ./secrets/serviceB_key.pem 2048
@@ -170,25 +174,27 @@ Common Name (e.g. server FQDN or YOUR name) []:localhost
 Email Address []:
 ```
 
-Install the example dependencies.
+#### Install the example dependencies.
 
 ```bash
 npm install && npm update
 ```
 
-Build the application.
+#### Build the application.
 
 ```bash
 npm run clean:build
 ```
 
-Run the application.
+#### Run the application.
 
 ```bash
 npm start
 ```
 
-Output
+#### Output
+
+The Services shared and logged each other's secretes.
 
 ```bash
 42

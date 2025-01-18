@@ -8,14 +8,14 @@ In this example you will use Network-Services in order to create a "Hello, World
 
 ### Instructions
 
-Import the `node:net` module and the `createService` helper functions.
+#### Import the `node:net` module and the `createService` helper functions.
 
 ```ts
 import * as net from "node:net";
 import { createService } from "network-services";
 ```
 
-Create a `Greeter` Service.
+#### Create a `Greeter` Service.
 
 ```ts
 class Greeter {
@@ -28,7 +28,7 @@ class Greeter {
 const greeter = new Greeter(); // Create an instance of the Greeter Application.
 ```
 
-Create a `net.Server` and create a `Greeter` Service App that is connected to the `net.Socket`.
+#### Create a `net.Server` and create a `Greeter` Service App that is connected to the `net.Socket`.
 
 ```ts
 const server = net.createServer().listen({ port: 3000, host: "127.0.0.1" }); // Listen for incoming connections.
@@ -39,7 +39,9 @@ server.on("connection", (socket: net.Socket) => {
 });
 ```
 
-Connect to the Server and use the `net.Socket` in order to create a Service. Use the Service in order to create a Service API of type `Greeter`. Use the `greeter` Service API in order to call the Service App's methods and log the greeting.
+#### Connect to the Server and use the `net.Socket` in order to create a Service.
+
+Use the Service in order to create a Service API of type `Greeter`. Use the `greeter` Service API in order to call the Service App's methods and log the greeting.
 
 ```ts
 const socket = net.connect({ port: 3000, host: "127.0.0.1" }); // Connect to the `net.Server`.
@@ -60,37 +62,37 @@ Please make sure your firewall is configured to allow connections on `127.0.0.1:
 
 ### Instructions
 
-Clone the Network-Services repo.
+#### Clone the Network-Services repo.
 
 ```bash
 git clone https://github.com/faranalytics/network-services.git
 ```
 
-Change directory into the relevant example directory.
+#### Change directory into the relevant example directory.
 
 ```bash
 cd network-services/examples/hello_world
 ```
 
-Install the example dependencies.
+#### Install the example dependencies.
 
 ```bash
 npm install && npm update
 ```
 
-Build the application.
+#### Build the application.
 
 ```bash
 npm run clean:build
 ```
 
-Run the application.
+#### Run the application.
 
 ```bash
 npm start
 ```
 
-Output
+##### Output
 
 ```bash
 Hello, happy world!

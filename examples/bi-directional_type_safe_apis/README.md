@@ -4,13 +4,13 @@
 
 In this example you will use Network-Services in order to create two Service Apps connected by a Socket. Communication between the two Service Apps will be bi-directional. Their APIs will be type safe and support code completion, parameter types, and return types.
 
-## Implementation
-
-### Instructions
+## Implement the example
 
 In this hypothetical example you will create two Service Apps, a `DataStore` and a `DataProvider`, that call each other's methods over a `net.Socket`. The `DataProvider` will add data to the `DataStore` using the `DataStore.addData` method. When the `DataStore` reaches a limit it will call the `DataProvider.stop` method in order to stop it from adding more data to the store. The `DataProvider` will then call the `DataStore.getData` method in order to get the stored data that it sent to the `DataStore` and log it to the console.
 
-Import the `node:net` module, `Async` type, and the `createService` helper functions.
+### Implement `index.ts`
+
+#### Import the `node:net` module, `Async` type, and the `createService` helper functions.
 
 ```ts
 import * as tls from "node:tls";
@@ -18,7 +18,7 @@ import * as fs from "node:fs";
 import { Async, createService } from "network-services";
 ```
 
-Define a `DataStore` and its interface.
+#### Define a `DataStore` and its interface.
 
 ```ts
 interface IDataStore {
@@ -54,7 +54,9 @@ class DataStore implements IDataStore {
 }
 ```
 
-Create a `net.Server` and use its `net.Socket` to create a Service. Use the Service in order to create a `DataProvider` Service API and a `DataStore` Service App.
+#### Create a `net.Server` and use its `net.Socket` to create a Service.
+
+Use the Service in order to create a `DataProvider` Service API and a `DataStore` Service App.
 
 ```ts
 const server = net.createServer().listen({ port: 3000, host: "127.0.0.1" });
@@ -69,7 +71,7 @@ server.on("connection", (socket: net.Socket) => {
 });
 ```
 
-Define a `DataProvider` and its interface.
+#### Define a `DataProvider` and its interface.
 
 ```ts
 interface IDataProvider {
@@ -103,7 +105,9 @@ class DataProvider implements IDataProvider {
 }
 ```
 
-Create a `net.Socket` and use it to create a Service. Use Service in order to create a `DataStore` Service API and a `DataProvider` Service App and start the `DataProvider`.
+#### Create a `net.Socket` and use it to create a Service. 
+
+Use Service in order to create a `DataStore` Service API and a `DataProvider` Service App and start the `DataProvider`.
 
 ```ts
 const socket = net.connect({ port: 3000, host: "127.0.0.1" });
@@ -120,45 +124,47 @@ socket.on("ready", async () => {
 });
 ```
 
-## Run the Example
+## Run the example
 
 ### Requirements
 
-Please make sure your firewall is configured to allow connections on `127.0.0.1:3000` for this example to work.
+- The `tls.Server` will attempt to bind to `localhost:3000`.
 
-### Instructions
+### How to run the example
 
-Clone the Network-Services repo.
+#### Clone the Network-Services repo.
 
 ```bash
 git clone https://github.com/faranalytics/network-services.git
 ```
 
-Change directory into the relevant example directory.
+#### Change directory into the relevant example directory.
 
 ```bash
 cd network-services/examples/bi-directional_type_safe_apis
 ```
 
-Install the example dependencies.
+#### Install the example dependencies.
 
 ```bash
 npm install && npm update
 ```
 
-Build the application.
+#### Build the application.
 
 ```bash
 npm run clean:build
 ```
 
-Run the application.
+#### Run the application.
 
 ```bash
 npm start
 ```
 
-Output
+##### Output
+
+This is the array that was stored in the DataStore.
 
 ```bash
 [
