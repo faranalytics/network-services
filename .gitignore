@@ -2,3 +2,4 @@ dist
 node_modules
 secrets
 package-lock.json
+tsconfig.tsbuildinfo

@@ -25,12 +25,15 @@
     "node": ">=18.20.4"
   },
   "devDependencies": {
-    "@types/node": "^20.8.4",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "@typescript-eslint/parser": "^6.7.5",
-    "eslint": "^8.51.0",
     "nodemon": "^3.0.1",
-    "typescript": "^5.2.2"
+    "@eslint/js": "^9.6.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^20.11.28",
+    "eslint": "^8.57.0",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^7.15.0"
   },
   "keywords": [
     "api",
