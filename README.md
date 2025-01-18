@@ -69,9 +69,9 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
 
 Using _Network-Services_ involves creating a Service App and calling its methods over a stream (e.g., a `net.Socket`) using a Service API. In this example you will create a `Greeter` Service and call its `greeter.greet` method over a `net.Socket` using an asynchronous Service API of type `Greeter`.
 
-### Instructions
+### Implement `index.ts`
 
-Import the `node:net` module and the `createService` helper function.
+#### Import the `node:net` module and the `createService` helper function.
 
 ```ts
 import * as net from "node:net";
@@ -89,7 +89,7 @@ class Greeter {
 const greeter = new Greeter();
 ```
 
-Create a Server and create a Greeter Service App that is connected to the network.
+#### Create a Server and create a Greeter Service App that is connected to the network.
 
 ```ts
 const server = net.createServer().listen({ port: 3000, host: "127.0.0.1" });
@@ -99,7 +99,9 @@ server.on("connection", (socket: net.Socket) => {
 });
 ```
 
-Connect to the Server and create a Service API of type `Greeter`. Use the `greeter` Service API in order to call the remote Service App's methods and log the greeting.
+#### Connect to the Server and create a Service API of type `Greeter`. 
+
+You will use the `greeter` Service API in order to call the remote Service App's methods and log the greeting.
 
 ```ts
 const socket = net.connect({ port: 3000, host: "127.0.0.1" });
@@ -119,29 +121,29 @@ Please see the ["Hello, World!"](https://github.com/faranalytics/network-service
 
 ## Examples
 
-### _An Instance of "Hello, World!"_ <sup><sup>\</TypeScript\></sup></sup>
+### _An instance of "Hello, World!"_ <sup><sup>\</TypeScript\></sup></sup>
 
 Please see the [Usage](#usage) section above or the ["Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/hello_world) example for a working implementation.
 
-### _Use Network-Services to Create Bi-directional Type-safe APIs_ <sup><sup>\</TypeScript\></sup></sup>
+### _Use Network-Services to create bi-directional type-safe APIs_ <sup><sup>\</TypeScript\></sup></sup>
 
 Please see the [Bi-directional Type-Safe APIs](https://github.com/faranalytics/network-services/tree/main/examples/bi-directional_type_safe_apis) example for a working implementation.
 
-### _Use Network-Services with TLS Encryption and Client Certificate Authentication_ <sup><sup>\</TypeScript\></sup></sup>
+### _Use Network-Services with TLS encryption and client certificate authentication_ <sup><sup>\</TypeScript\></sup></sup>
 
 Please see the [TLS Encryption and Client Authentication](https://github.com/faranalytics/network-services/tree/main/examples/tls_encryption_and_client_auth) example for a working implementation.
 
-### _Use Network-Services to Create an API with a Nested Method_ <sup><sup>\</TypeScript\></sup></sup>
+### _Use Network-Services to create an API with a nested method_ <sup><sup>\</TypeScript\></sup></sup>
 
 Please see the [Nested Method](https://github.com/faranalytics/network-services/tree/main/examples/nested_method) example for a working implementation.
 
-### _Use Network-Services to Scale a "Hello, World!" Greeter Service Using a Service Pool_ <sup><sup>\</TypeScript\></sup></sup>
+### _Use Network-Services to scale a "Hello, World!" greeter Service asing a Service Pool_ <sup><sup>\</TypeScript\></sup></sup>
 
 Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/scalable_hello_world) example for a working implementation.
 
 ## API
 
-### The Service Class
+### The Service class
 
 #### network-services.createService(stream, options)
 
@@ -185,7 +187,7 @@ Errors:
 
 > **NB** The Service API and type safety is not enforced at runtime. Please see the `paths` property of the `ServiceAppOptions<T>` object for runtime checks.
 
-### The ServicePool Class
+### The ServicePool class
 
 #### network-services.createServicePool(options)
 
@@ -197,7 +199,7 @@ Errors:
 
 Returns: `<ServicePool>`
 
-### The PortStream Class
+### The PortStream class
 
 #### network-services.createPortStream(port, options)
 
@@ -234,7 +236,7 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
 
 _Network-Services_ provides a default _minimalist_ JSON message protocol. However, you can marshal your messages however you choose by extending the `BufferMux` class and implementing the`serializeMessage` and `deserializeMessage` methods. Simply pass your custom `Mux` implementation in the `ServiceOptions` when you create your Service. Please see the `muxClass` parameter in `ServiceOptions` of the [createService](#network-servicescreateservicestream-options) helper function.
 
-### Default JSON Message Protocol
+### Default JSON message protocol
 
 _Network-Services_ provides a concise default JSON message protocol. The message protocol is guided by parsimony; it includes just what is needed to make a function call and return a result or throw an `Error`.
 
@@ -242,11 +244,11 @@ _Network-Services_ provides a concise default JSON message protocol. The message
 
 Arguments, return values, and Errors are serialized using JavaScript's `JSON.stringify`. The choice of using `JSON.stringify` has important and _certain_ ramifications that should be understood. Please see the rules for [serialization](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#description).
 
-#### Type Definitions
+#### Type definitions
 
 The type definitions for the default JSON message protocol:
 
-##### The Call Message
+##### The CallMessageList type
 
 A `CallMessageList` consists of a numeric message type, the call identifier, the property path to the called function, and its arguments.
 
@@ -259,7 +261,7 @@ type CallMessageList = [
 ];
 ```
 
-##### The Result Message
+##### The ResultMessageList type
 
 A `ResultMessageList` consists of a numeric message type, the call identifier, and a return value or `Error`.
 
@@ -345,15 +347,15 @@ Excerpted from [Semantic Versioning 2.0.0](https://semver.org/):
 
 ## Test
 
-### Instructions
+### Run the test
 
-Install dependencies.
+#### Install the dependencies.
 
 ```bash
 npm install && npm update
 ```
 
-Run tests.
+#### Run the test script.
 
 ```bash
 npm test
