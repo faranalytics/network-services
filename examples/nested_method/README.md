@@ -4,7 +4,7 @@ As in the Hello World example, in this example you will use Network-Services in 
 
 ## Implement the example
 
-### Implement `index.ts`
+### Implement the `index.ts` module
 
 #### Import the `node:net` module and the `createService` helper functions.
 

@@ -8,7 +8,7 @@ In this hypothetical example you will use Network-Services in order to create tw
 
 You will create two Service Apps, `ServiceA` and `ServiceB`. Each Service App has a setter named `setSecret`. `ServiceA` will set a secret on `ServiceB` and `ServiceB` will set a secret on `ServiceA`. When a secret is set on an object it will be logged to the console.
 
-### Implement `index.ts`
+### Implement the `index.ts` module
 
 ##### Import the `node:fs` and `node:tls` modules and `Async` Proxy type, and the `createService` helper functions.
 

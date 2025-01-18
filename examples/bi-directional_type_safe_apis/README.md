@@ -8,7 +8,7 @@ In this example you will use Network-Services in order to create two Service App
 
 In this hypothetical example you will create two Service Apps, a `DataStore` and a `DataProvider`, that call each other's methods over a `net.Socket`. The `DataProvider` will add data to the `DataStore` using the `DataStore.addData` method. When the `DataStore` reaches a limit it will call the `DataProvider.stop` method in order to stop it from adding more data to the store. The `DataProvider` will then call the `DataStore.getData` method in order to get the stored data that it sent to the `DataStore` and log it to the console.
 
-### Implement `index.ts`
+### Implement the `index.ts` module
 
 #### Import the `node:net` module, `Async` type, and the `createService` helper functions.
 

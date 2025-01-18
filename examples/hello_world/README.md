@@ -6,7 +6,7 @@ In this example you will use Network-Services in order to create a "Hello, World
 
 ## Implement the example
 
-### Implement `index.ts`
+### Implement the `index.ts` module
 
 #### Import the `node:net` module and the `createService` helper functions.
 
