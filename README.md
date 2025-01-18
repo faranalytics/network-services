@@ -69,9 +69,9 @@ Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/networ
 
 Using _Network-Services_ involves creating a Service App and calling its methods over a stream (e.g., a `net.Socket`) using a Service API. In this example you will create a `Greeter` Service and call its `greeter.greet` method over a `net.Socket` using an asynchronous Service API of type `Greeter`.
 
-### Implement the \`index.ts\` module
+### Implement the `index.ts` module
 
-#### Import the \`node:net\` module and the \`createService\` helper function.
+#### Import the `node:net` module and the `createService` helper function.
 
 ```ts
 import * as net from "node:net";
@@ -99,7 +99,7 @@ server.on("connection", (socket: net.Socket) => {
 });
 ```
 
-#### Connect to the Server and create a Service API of type \`Greeter\`.
+#### Connect to the Server and create a Service API of type `Greeter`.
 
 You will use the `greeter` Service API in order to call the remote Service App's methods and log the greeting.
 
@@ -289,7 +289,7 @@ interface IGreeter {
 }
 ```
 
-#### Set a timeout in \`ServiceAPIOptions\`.
+#### Set a timeout in `ServiceAPIOptions`.
 
 Calling a method on a remote Service App using a Service API may take too long to resolve or reject - or may never resolve at all. This effect can be caused by a long running operation in the remote Service App or a congested network. If the call fails to resolve or reject prior to the `timeout` specified in `ServiceAPIOptions`, the `Promise` will reject with `CallTimeoutError` as its reason.
 
@@ -297,11 +297,11 @@ Calling a method on a remote Service App using a Service API may take too long t
 
 Unless you control the definition of both the Service API and the Service App, you should specify which methods may be called on your Service App using the `paths` property of `ServiceAppOptions<T>`.
 
-#### Ensure your \`stream.Duplex\` (e.g., a \`net.Socket\`) is [_ready_](https://nodejs.org/api/net.html#event-ready) for use.
+#### Ensure your `stream.Duplex` (e.g., a `net.Socket`) is [_ready_](https://nodejs.org/api/net.html#event-ready) for use.
 
 _Network-Services_ assumes that the `stream.Duplex` passed to `createService` is [_ready_](https://nodejs.org/api/net.html#event-ready) to use; this assumption and separation of concern is an intentional design decision. A `stream.Duplex` implementation (e.g., a `net.Socket`) _may_ include an event (e.g., something like `'ready'` or `'connect'`) that will indicate it is ready for use. Please await this event, if available, prior to passing the `stream.Duplex` to the `createService` helper function.
 
-#### If you create a stream (e.g., a \`net.Socket\`), set an \`error\` handler on it.
+#### If you create a stream (e.g., a `net.Socket`), set an `error` handler on it.
 
 A `stream.Duplex` may error even before becoming _ready_; hence, as usual, you should _synchronously_ set an error handler on a new stream instance.
 
@@ -325,7 +325,7 @@ TLS Client Certificate Authentication may be implemented using native Node.js [T
 
 The Service API and type safety are not enforced at runtime. You can restrict API calls to specified Service App methods by providing an `Array` of property paths to the `paths` property of the `ServiceAppOptions<T>` object. If the `paths` array is defined in `ServiceAppOptions<T>` and a method is called that is not a registered property path, the awaited `Promise` will reject with `PropertyPathError` as its reason.
 
-#### Specify an \`ingressQueueSizeLimit\` and \`egressQueueSizeLimit\` in the Service options.
+#### Specify an `ingressQueueSizeLimit` and `egressQueueSizeLimit` in the Service options.
 
 _Network-Services_ respects backpressure; however, it is advisable to specify how much data may be buffered in order to ensure your _application_ can respond to adverse network phenomena. If the stream peer reads data at a rate that is slower than the rate that data is written to the stream, data may buffer until memory is exhausted. This is a [vulnerability](https://nodejs.org/api/stream.html#writablewritechunk-encoding-callback) that is inherent in streams, which can be mitigated by preventing internal buffers from growing too large.
 
