@@ -21,7 +21,7 @@ A _Network-Services_ app can be explained with a complete and simple example. In
 - A configurable [message protocol](#message-protocol). You can marshal your messages however you choose (e.g., JSON, binary, etc.), or use the default _minimalist_ JSON message protocol.
 - [Extend](#extend-network-services) _Network-Services_ using the native `stream.Duplex` interface.
 
-## Table of Contents
+## Table of contents
 
 - [Installation](#installation)
 - [Concepts](#concepts)
@@ -210,7 +210,7 @@ Returns: `<PortStream>`
 
 A `PortStream` defaults to wrapping the `parentPort` of the Worker thread into a `stream.Duplex`. Hence, a `PortStream` _is a_ `stream.Duplex`, so it can be passed to the _Network-Services_ `createService` helper function. This is the stream adapter that is used in the Worker modules that comprise a Service Pool.
 
-## Type Safety
+## Type safety
 
 _Network-Services_ provides a facility for building a type-safe network API. The type-safe API facility is realized through use of JavaScript's Proxy object and TypeScript's type variables. A Proxy interface is created by passing your app's public interface to the type parameter of the `service.createServiceAPI<T>` helper function. The type-safe Proxy interface facilitates _code completion_, _parameter types_, and _return types_; it helps safeguard the integrity of your API.
 
