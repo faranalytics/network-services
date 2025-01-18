@@ -28,11 +28,11 @@ A _Network-Services_ app can be explained with a complete and simple example. In
 - [Usage](#usage)
 - [Examples](#examples)
 - [API](#api)
-- [Type Safety](#type-safety)
+- [Type safety](#type-safety)
 - [Extend _Network-Services_](#extend-network-services)
 - [Scaling](#scaling)
-- [Message Protocol](#message-protocol)
-- [Best Practices](#best-practices)
+- [Message protocol](#message-protocol)
+- [Best practices](#best-practices)
 - [Versioning](#versioning)
 - [Test](#test)
 - [Support](#support)
@@ -232,7 +232,7 @@ Complexities arise when muxing many-to-many relationships; hence, please see the
 
 Please see the [Scalable "Hello, World!"](https://github.com/faranalytics/network-services/tree/main/examples/scalable_hello_world) example for a working scalable Service implementation using a Service Pool.
 
-## Message Protocol
+## Message protocol
 
 _Network-Services_ provides a default _minimalist_ JSON message protocol. However, you can marshal your messages however you choose by extending the `BufferMux` class and implementing the`serializeMessage` and `deserializeMessage` methods. Simply pass your custom `Mux` implementation in the `ServiceOptions` when you create your Service. Please see the `muxClass` parameter in `ServiceOptions` of the [createService](#network-servicescreateservicestream-options) helper function.
 
@@ -273,7 +273,7 @@ type ResultMessageList = [
 ];
 ```
 
-## Best Practices
+## Best practices
 
 ### General
 
