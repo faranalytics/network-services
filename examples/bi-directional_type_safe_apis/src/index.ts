@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import * as net from "node:net";
+import * as net from 'node:net';
 import { Async, createService } from 'network-services';
 
 // DataStore

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import * as net from "node:net";
-import { createService, createServicePool } from "network-services";
-import { Greeter } from "./service.js"; // Import the `Greeter` type from the scaled module.
+import * as net from 'node:net';
+import { createService, createServicePool } from 'network-services';
+import { Greeter } from './service.js'; // Import the `Greeter` type from the scaled module.
 
 const servicePool = createServicePool({ // Create a Service Pool consisting of 10 instances of the `service.js` module.
     workerCount: 10,

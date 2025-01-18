@@ -1,6 +1,6 @@
-import * as tls from "node:tls";
-import * as fs from "node:fs";
-import { Async, createService } from "network-services";
+import * as tls from 'node:tls';
+import * as fs from 'node:fs';
+import { Async, createService } from 'network-services';
 
 interface IServiceA {
     setSecret: (secret: number) => void;
