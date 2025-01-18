@@ -164,7 +164,7 @@ npm start
 
 ##### Output
 
-This is the array that was stored in the DataStore.
+This is the array that was stored in the `DataStore`.
 
 ```bash
 [
